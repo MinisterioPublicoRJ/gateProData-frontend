@@ -1,0 +1,62 @@
+[
+  {
+    "id": "70",
+    "nome": "Ciências Biológicas"
+  },
+  {
+    "id": "73",
+    "nome": "Enfermagem"
+  },
+  {
+    "id": "74",
+    "nome": "Medicina"
+  },
+  {
+    "id": "75",
+    "nome": "Farmácia"
+  },
+  {
+    "id": "92",
+    "nome": "Engenharia Civil"
+  },
+  {
+    "id": "93",
+    "nome": "Engenharia Elétrica"
+  },
+  {
+    "id": "95",
+    "nome": "Engenharia Ambiental"
+  },
+  {
+    "id": "96",
+    "nome": "Engenharia Florestal"
+  },
+  {
+    "id": "98",
+    "nome": "Engenharia Química"
+  },
+  {
+    "id": "105",
+    "nome": "Psicologia"
+  },
+  {
+    "id": "106",
+    "nome": "Administração"
+  },
+  {
+    "id": "107",
+    "nome": "Arquitetura e Urbanismo"
+  },
+  {
+    "id": "109",
+    "nome": "Ciências Contábeis"
+  },
+  {
+    "id": "110",
+    "nome": "Ciências Econômicas"
+  },
+  {
+    "id": "120",
+    "nome": "Serviço Social"
+  }
+]

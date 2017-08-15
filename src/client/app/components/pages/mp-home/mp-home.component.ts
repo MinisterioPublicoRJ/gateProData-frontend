@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { Injector } from '@angular/core';
 import { Config, RouterExtensions } from '../../../modules/core/index';
 
+import {SelectItem} from 'primeng/primeng';
+
 @Component({
   moduleId: module.id,
   selector: 'mp-home',
