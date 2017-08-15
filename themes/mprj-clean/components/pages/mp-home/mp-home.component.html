@@ -6,66 +6,48 @@
   </div>
 
   <div class="row">
-    <div id="solicitante" class="col-lg-2 col-sm-7 col-sub col-8">
-      <form>
-          Solicitante:<br>
-          <input type="text" name="Solicitante">
-      </form> 
 
-  <div id="mprjprincipal" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          MPRJ Principal:<br>
-          <input type="text" name="mprjprincipal">
-      </form>
-
-   <div id="tipo" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          Tipo:<br>
-          <input type="text" name="tipo">
-      </form> 
-
-   <div id="subtipo" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          Subtipo:<br>
-          <input type="text" name="subtipo">
-      </form> 
-
-   <div id="formacao" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          Formação:<br>
-          <input type="text" name="formacao">
-      </form> 
-
-     <div id="servicos" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          Serviços:<br>
-          <input type="text" name="servicos">
-      </form> 
-
-     <div id="edificacoes" class="col-lg-2 col-sm-7 col-sub col-8" >
-      <form>
-          Edificações:<br>
-          <input type="text" name="edificacoes">
-      </form> 
-
-  
-  
-  
-    
-
-      
-
-    
-
-    
-          
-       
+    <div id="solicitante" class="col-lg-8 col-sm-10 col-sub col-12">
+      Solicitante:<br>
+      <p-dropdown [options]="cars" [(ngModel)]="selectedCar" [style]="{'width':'150px'}">
+        <ng-template let-car pTemplate="item">
+          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+            <img src="assets/showcase/images/demo/car/{{car.label}}.gif" style="width:24px;position:absolute;top:1px;left:5px"/>
+            <div style="font-size:14px;float:right;margin-top:4px">{{car.label}}</div>
           </div>
-        </div>
-      </div>
+        </ng-template>
+      </p-dropdown>
     </div>
-   </div>
+
+    <div id="mprjprincipal" class="col-lg-8 col-sm-10 col-sub col-12">
+      MPRJ Principal:<br>
+      <input type="text" name="mprjprincipal">
+    </div>
+
+    <div id="tipo" class="col-lg-8 col-sm-10 col-sub col-12">
+      Tipo:<br>
+      <input type="text" name="tipo">
+    </div>
+
+    <div id="subtipo" class="col-lg-8 col-sm-10 col-sub col-12">
+      Subtipo:<br>
+      <input type="text" name="subtipo">
+    </div>
+
+    <div id="formacao" class="col-lg-8 col-sm-10 col-sub col-12">
+      Formação:<br>
+      <input type="text" name="formacao">
+    </div>
+
+    <div id="servicos" class="col-lg-8 col-sm-10 col-sub col-12">
+      Serviços:<br>
+      <input type="text" name="servicos">
+    </div>
+
+    <div id="edificacoes" class="col-lg-8 col-sm-10 col-sub col-12">
+      Edificações:<br>
+      <input type="text" name="edificacoes">
+    </div>
+
   </div>
 </div>
-
-<mp-subscribe></mp-subscribe>

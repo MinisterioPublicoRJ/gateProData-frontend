@@ -40,7 +40,7 @@ export const appDescription: string = 'Advanced Seed with Mutuatech Patches for 
  *          - src/client/index.html */
 
 export const appTheme    : string = 'mprj-clean';   /** One of the directories in 'themes/' */
-export const primeNGTheme: string = 'trontastic';   /** One of the directories in 'node-modules/primeng/resources/themes/' -- If you have 'PRIMENG_MODULES' enabled */
+export const primeNGTheme: string = 'bootstrap';    /** One of the directories in 'node-modules/primeng/resources/themes/' -- If you have 'PRIMENG_MODULES' enabled */
 
 /** Defines the components this application should bundle and load, for html (web and desktop) and mobile platforms.
  *  All 'component' entries must have been previously defined by 'MutuaAvailableComponentsConfiguration', from
