@@ -26,6 +26,10 @@ import { MultilingualModule, Languages, translateLoaderFactory, MultilingualEffe
 import { SampleModule, SampleEffects } from './app/modules/sample/index';
 import { AppReducer } from './app/modules/ngrx/index';
 
+// services
+import { GateProDataServices } from './app/services/GateProDataService';
+
+
 // config
 Config.PLATFORM_TARGET = Config.PLATFORMS.WEB;
 if (String('<%= BUILD_TYPE %>') === 'dev') {
@@ -105,7 +109,8 @@ if (String('<%= BUILD_TYPE %>') === 'dev') {
     {
       provide: Languages,
       useValue: Config.GET_SUPPORTED_LANGUAGES()
-    }
+    },
+    GateProDataServices,
   ],
   bootstrap: [MutuaAppComponent]
 })

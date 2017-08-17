@@ -9,13 +9,7 @@
 
     <div id="solicitante" class="col-lg-8 col-sm-10 col-sub col-12">
       Solicitante:<br>
-      <p-dropdown [options]="cars" [(ngModel)]="selectedCar" class="dropDownControl" filter="filter" placeholder="escolha um...." filterPlaceholder="buscar..." required>
-        <ng-template let-car pTemplate="item">
-          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
-            <div class="dropDownItem" [ngStyle]="{'color': {true: '#F03030', false: '#000000'}[car.label == 'Fiat']}">{{car.label}}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
+      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="escolha..." filterPlaceholder="buscar..." required></p-dropdown>
     </div>
 
     <div id="mprjprincipal" class="col-lg-8 col-sm-10 col-sub col-12">
@@ -25,12 +19,13 @@
 
     <div id="tipo" class="col-lg-8 col-sm-10 col-sub col-12">
       Tipo:<br>
-      <input type="text" name="tipo">
+      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '20%'}" filter="filter" placeholder="escolha ou crie..." filterPlaceholder="buscar..." editable="editable" required></p-dropdown>
     </div>
 
     <div id="subtipo" class="col-lg-8 col-sm-10 col-sub col-12">
       Subtipo:<br>
-      <input type="text" name="subtipo">
+      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" [style]="{'width': '20%'}" filter="filter" placeholder="escolha ou crie..." filterPlaceholder="buscar..." editable="editable" required></p-dropdown>
+      <input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText" style="width:20%;"/>
     </div>
 
     <div id="formacao" class="col-lg-8 col-sm-10 col-sub col-12">

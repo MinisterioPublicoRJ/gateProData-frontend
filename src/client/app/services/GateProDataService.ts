@@ -21,12 +21,18 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 // app
-import { Config } from '../../../../modules/core/index';
-import { Analytics, AnalyticsService } from '../../../../modules/analytics/index';
+import { Config } from '../modules/core/index';
+import { Analytics, AnalyticsService } from '../modules/analytics/index';
 
 // module
-import { IRankings }       from './IRankings';
-import { IDadosMunicipio } from './IDadosMunicipio';
+import { IITs }            from './IITs';
+import { ISolicitantes }   from './ISolicitantes';
+import { ITipos }          from './ITipos';
+import { ISubTipos }       from './ISubTipos';
+import { IEspecialidades } from './IEspecialidades';
+import { IAssuntos }       from './IAssuntos';
+import { IEdificacoes }    from './IEdificacoes';
+import { ITecnicos }       from './ITecnicos';
 
 /** especificação dos backends disponíveis */
 interface IIAvailableBackendServices {
@@ -92,18 +98,80 @@ export class GateProDataServices {
     this.serviceURLs = this.testServiceURLs;
   }
 
-  public fetchRankings(): Observable < IRankings[] > {
-    return this.http.get(this.rankingsJsonFileURL)
+  public fetchListaITs(): Observable < IITs[] > {
+    let serviceName: string = 'listaITs';
+    let url:         string = this.serviceURLs.listaITs;
+    return this.http.get(url)
       .map((response: Response) => {
-        return < IRankings[] > response.json();
-      }).catch((error:any) => Observable.throw(error.json().error || 'Erro no servidor ao resgatar rankings'));
+        return < IITs[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
-  public fetchDadosMunicipios(): Observable < IDadosMunicipio[] > {
-    return this.http.get(this.dadosMunicipiosJsonFileURL)
+  public fetchListaSolicitantes(): Observable < ISolicitantes[] > {
+    let serviceName: string = 'listaSolicitantes';
+    let url:         string = this.serviceURLs.listaSolicitantes;
+    return this.http.get(url)
       .map((response: Response) => {
-        return < IDadosMunicipio[] > response.json();
-      }).catch((error:any) => Observable.throw(error.json().error || 'Erro no servidor ao resgatar dados dos municípios'));
+        return < ISolicitantes[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaTipos(): Observable < ITipos[] > {
+    let serviceName: string = 'listaTipos';
+    let url:         string = this.serviceURLs.listaTipos;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < ITipos[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaSubTipos(idTipo: number): Observable < ITipos[] > {
+    let serviceName: string = 'listaSubTipos';
+    let url:         string = this.serviceURLs.listaSubTipos.replace('#{parameters}', idTipo);
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < ISubTipos[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaEspecialidades(): Observable < IEspecialidades[] > {
+    let serviceName: string = 'listaEspecialidades';
+    let url:         string = this.serviceURLs.listaEspecialidades;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IEspecialidades[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaAssuntos(): Observable < IAssuntos[] > {
+    let serviceName: string = 'listaAssuntos';
+    let url:         string = this.serviceURLs.listaAssuntos;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IAssuntos[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaEdificacoes(): Observable < IEdificacoes[] > {
+    let serviceName: string = 'listaEdificacoes';
+    let url:         string = this.serviceURLs.listaEdificacoes;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IEdificacoes[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaTecnicos(): Observable < ITecnicos[] > {
+    let serviceName: string = 'listaTecnicos';
+    let url:         string = this.serviceURLs.listaTecnicos;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < ITecnicos[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  private getErrorMessage(serviceName: string, url: string) {
+    return `Erro ao resgatar '${serviceName}' de '${url}'`;
   }
 
 }

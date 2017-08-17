@@ -5,18 +5,6 @@ h1{
 p{
   font-size: 95%;
   text-align: right;
-} 
-
-.titulo {
-  font-family: 'Roboto-Condensed';
-  font-size: 210%;
-  font-weight: bold;
-  line-height: 90%;
-}
-.texto {
-  font-family: 'Roboto-Condensed-Light';
-  font-size: 120%;
-  line-height: 90%;
 }
 
 .link {
@@ -31,22 +19,12 @@ p{
   cursor: pointer;
 }
 
+.dropDownItem {
+  font-size:  14px;
+  float:      right;
+  margin-top: 4px;
+}
+
 #solicitante {
   margin-right: 50%;
-}
-
-@media (min-width:992) {
-  .col-lg-2{
-    max-width: 35%!important;
-  }
-}
-
-@media(max-width:991px){
-  div.borderedL{border-color: transparent}
-}
-
-@media(max-width:1199px){
-  img.img-responsive { width:90%;}
-  e-link.link{position: inherit;bottom: inherit;right: inherit}
-  max-width: 100%;
 }
