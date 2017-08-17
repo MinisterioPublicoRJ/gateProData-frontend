@@ -26,10 +26,13 @@ import { Analytics, AnalyticsService } from '../modules/analytics/index';
 
 // module
 import { IITs }            from './IITs';
+import { IMPRJDocuDK }     from './IMPRJDocuDK';
+import { IMPRJ }           from './IMPRJ';
 import { ISolicitantes }   from './ISolicitantes';
 import { ITipos }          from './ITipos';
 import { ISubTipos }       from './ISubTipos';
 import { IEspecialidades } from './IEspecialidades';
+import { IServicos }       from './IServicos';
 import { IAssuntos }       from './IAssuntos';
 import { IEdificacoes }    from './IEdificacoes';
 import { ITecnicos }       from './ITecnicos';
@@ -43,7 +46,7 @@ interface IIAvailableBackendServices {
   listaITs:            string;
   listaSolicitantes:   string;
   listaTipos:          string;
-  listaEspecialidades: string;
+  listaEspecialidades: string;  // também chamado de "formação"
   listaAssuntos:       string;
   listaEdificacoes:    string;
   listaTecnicos:       string;
@@ -52,19 +55,19 @@ interface IIAvailableBackendServices {
   //////////////////////////
 
   /** parâmetro: mprj */
-  verificaMPRJ:            string;
+  verificaMPRJ:         string;
 
   /** parâmetro: mprj */
-  listaMPRJsVinculados:    string;
+  listaMPRJsVinculados: string;
 
   /** parâmetro: tipoId */
-  listaSubTipos:           string;
+  listaSubTipos:        string;
 
-  /** parâmetro: formaçãoId */
-  listaServicos:           string;
+  /** parâmetro: especialidadeId (ou formaçãoId) */
+  listaServicos:        string;
 
   /** parâmetro: itId */
-  downloadPDF:             string;
+  downloadPDF:          string;
 
 }
 
@@ -74,18 +77,18 @@ export class GateProDataServices {
   private testServiceURLsPrefix: string = `${Config.IS_MOBILE_NATIVE() ? '/' : ''}assets/dados/testes/`;
   private testServiceURLsSuffix: string = '.json';
   private testServiceURLs: IIAvailableBackendServices = {
-    listaITs:                `${this.testServiceURLsPrefix}listaIts${this.testServiceURLsSuffix}`,
-    listaSolicitantes:       `${this.testServiceURLsPrefix}listaSolicitantes${this.testServiceURLsSuffix}`,
-    listaTipos:              `${this.testServiceURLsPrefix}listaTipos${this.testServiceURLsSuffix}`,
-    listaEspecialidades:     `${this.testServiceURLsPrefix}listaEspecialidades${this.testServiceURLsSuffix}`,
-    listaAssuntos:           `${this.testServiceURLsPrefix}listaAssuntos${this.testServiceURLsSuffix}`,
-    listaEdificacoes:        `${this.testServiceURLsPrefix}listaEdificacoes${this.testServiceURLsSuffix}`,
-    listaTecnicos:           `${this.testServiceURLsPrefix}listaTecnicos${this.testServiceURLsSuffix}`,
-    verificaMPRJ:            `${this.testServiceURLsPrefix}verificaMPRJ_#{parameters}${this.testServiceURLsSuffix}`,
-    listaMPRJsVinculados:    `${this.testServiceURLsPrefix}listaMPRJs_#{parameters}${this.testServiceURLsSuffix}`,
-    listaSubTipos:           `${this.testServiceURLsPrefix}listaSubTipos_#{parameters}${this.testServiceURLsSuffix}`,
-    listaServicos:           `${this.testServiceURLsPrefix}listaServicos_#{parameters}${this.testServiceURLsSuffix}`,
-    downloadPDF:             `${this.testServiceURLsPrefix}downloadPDF_#{parameters}.pdf`,
+    listaITs:             `${this.testServiceURLsPrefix}listaIts${this.testServiceURLsSuffix}`,
+    listaSolicitantes:    `${this.testServiceURLsPrefix}listaSolicitantes${this.testServiceURLsSuffix}`,
+    listaTipos:           `${this.testServiceURLsPrefix}listaTipos${this.testServiceURLsSuffix}`,
+    listaEspecialidades:  `${this.testServiceURLsPrefix}listaEspecialidades${this.testServiceURLsSuffix}`,
+    listaAssuntos:        `${this.testServiceURLsPrefix}listaAssuntos${this.testServiceURLsSuffix}`,
+    listaEdificacoes:     `${this.testServiceURLsPrefix}listaEdificacoes${this.testServiceURLsSuffix}`,
+    listaTecnicos:        `${this.testServiceURLsPrefix}listaTecnicos${this.testServiceURLsSuffix}`,
+    verificaMPRJ:         `${this.testServiceURLsPrefix}verificaMPRJ_#{parameters}${this.testServiceURLsSuffix}`,
+    listaMPRJsVinculados: `${this.testServiceURLsPrefix}listaMPRJs_#{parameters}${this.testServiceURLsSuffix}`,
+    listaSubTipos:        `${this.testServiceURLsPrefix}listaSubTipos_#{parameters}${this.testServiceURLsSuffix}`,
+    listaServicos:        `${this.testServiceURLsPrefix}listaServicos_#{parameters}${this.testServiceURLsSuffix}`,
+    downloadPDF:          `${this.testServiceURLsPrefix}downloadPDF_#{parameters}.pdf`,
   };
 
   // private productionServiceURLs: IIAvailableBackendServices = {
@@ -125,9 +128,9 @@ export class GateProDataServices {
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
-  public fetchListaSubTipos(idTipo: number): Observable < ITipos[] > {
+  public fetchListaSubTipos(tipoId: number): Observable < ITipos[] > {
     let serviceName: string = 'listaSubTipos';
-    let url:         string = this.serviceURLs.listaSubTipos.replace('#{parameters}', idTipo);
+    let url:         string = this.serviceURLs.listaSubTipos.replace('#{parameters}', String(tipoId));
     return this.http.get(url)
       .map((response: Response) => {
         return < ISubTipos[] > response.json();
@@ -140,6 +143,15 @@ export class GateProDataServices {
     return this.http.get(url)
       .map((response: Response) => {
         return < IEspecialidades[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaServicos(especialidadeId: number): Observable < IServicos[] > {
+    let serviceName: string = 'listaServicos';
+    let url:         string = this.serviceURLs.listaSubTipos.replace('#{parameters}', String(especialidadeId));
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IServicos[] > response.json();
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
@@ -167,6 +179,24 @@ export class GateProDataServices {
     return this.http.get(url)
       .map((response: Response) => {
         return < ITecnicos[] > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchVerificaMPRJ(mprj: string): Observable < IMPRJDocuDK > {
+    let serviceName: string = 'verificaMPRJ';
+    let url:         string = this.serviceURLs.verificaMPRJ.replace('#{parameters}', mprj);
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IMPRJDocuDK > response.json();
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public fetchListaMPRJsVinculados(mprj: string): Observable < IMPRJ[] > {
+    let serviceName: string = 'listaMPRJsVinculados';
+    let url:         string = this.serviceURLs.listaMPRJsVinculados.replace('#{parameters}', mprj);
+    return this.http.get(url)
+      .map((response: Response) => {
+        return < IMPRJ[] > response.json();
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 

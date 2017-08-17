@@ -35,6 +35,7 @@ export class MPHomeComponent {
 
   // dados do backend para as listas dinâmicas
   listaSubTipos: SelectItem[];
+  listaServicos: SelectItem[];
 
   // mensagens de erro do backend
   listaITsErrorMessage:            string;
@@ -45,6 +46,7 @@ export class MPHomeComponent {
   listaEdificacoesErrorMessage:    string;
   listaTecnicosErrorMessage:       string;
   listaSubTiposErrorMessage:       string;
+  listaServicosErrorMessage:       string;
 
 
   // itens selecionados das listas;
@@ -52,7 +54,8 @@ export class MPHomeComponent {
   solicitanteId:              string;
   _tipoIdOrNewTipoText:       string;   // editable drop down, com evento de edição
   subTipoIdOrNewSubTipoText:  string;   // editable drop down, sem eventos
-  especialidadeId:            string;
+  _especialidadeId:           string;
+  servicoId:                  string;
   assuntoId:                  string;
   edificacaoId:               string;
   tecnicoId:                  string;
@@ -145,6 +148,10 @@ export class MPHomeComponent {
     // }
   }
 
+  // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente
+  //////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // tipo
   get tipoIdOrNewTipoText(): string {
     return this._tipoIdOrNewTipoText;
   }
@@ -160,6 +167,24 @@ export class MPHomeComponent {
         }
         this.ngOnChanges();
       }, error => this.listaSubTiposErrorMessage = <any>error);
+    }
+  }
+
+  // especialidade (formação)
+  get especialidadeId(): string {
+    return this._especialidadeId;
+  }
+  set especialidadeId(especialidadeId: string) {
+    this._especialidadeId = especialidadeId;
+    if (Number(especialidadeId)) {
+      this.gateProDataServices.fetchListaServicos(Number(especialidadeId)).subscribe(response => {
+        response = response.sort((e1, e2) => e2.servico < e1.servico ? 1 : -1);
+        this.listaServicos = [];
+        for (let servico of response) {
+          this.listaServicos.push({label: servico.servico, value: servico.id});
+        }
+        this.ngOnChanges();
+      }, error => this.listaServicosErrorMessage = <any>error);
     }
   }
 
