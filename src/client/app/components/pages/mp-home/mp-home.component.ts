@@ -68,7 +68,8 @@ export class MPHomeComponent {
   maxDate: Date;
 
   //Mapa
-
+  options: any;
+  overlays: any[];
 
   constructor(private injector: Injector,
               public routerext: RouterExtensions,
