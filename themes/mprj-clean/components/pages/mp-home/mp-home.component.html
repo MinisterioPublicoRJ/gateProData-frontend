@@ -7,49 +7,117 @@
 
   <div class="row">
 
-    <div id="solicitante" class="col-lg-8 col-sm-10 col-sub col-12">
+    <div id="solicitante" class="col-md-8 col-sub col-12">
       <label for="solicitante">Solicitante:</label>
-      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="escolha..." filterPlaceholder="buscar..." required></p-dropdown>
+      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
     <!--MPRJ Principal / Associado-->
-    <div class="col-xs-6 col-md-3">
+    <div class="col-md-4 margin">
       <label for="mprjPrincipal">MPRJ Principal</label>
-      <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Entre um MPRJ e escolha ao lado o vinculado" filterPlaceholder="buscar..." required></p-dropdown>
+      <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
-    <div class="col-xs-6 col-md-3">
+    <div class="col-md-4 margin">
       <label for="MPRJVinculado">MPRJ Vinculado</label>
-      <p-dropdown [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Entre um MPRJ vinculado e escolha ao lado o principal" filterPlaceholder="buscar..." required></p-dropdown>
+      <p-dropdown [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
     <!--Tipo / Subtipo-->
-    <div class="col-xs-6 col-md-3">
+    <div class="col-md-2 margin">
       <label for="tipo">Tipo</label>
-      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '100%'}" filter="filter" placeholder="escolha ou crie..." filterPlaceholder="buscar..." editable="editable" required></p-dropdown>
+      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
     </div>
 
-    <div class="col-xs-6 col-md-3">
+    <div class="col-md-1 margin">
       <label for="subtipo">Subtipo</label>
-      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" [style]="{'width': '20%'}" filter="filter" placeholder="escolha ou crie..." filterPlaceholder="buscar..." editable="editable" required></p-dropdown>
-      <input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText" style="width:20%;"/>
+      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
+      <br><input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
     </div>
 
     <!--Edificações-->
-    <div class="col-xs-12 col-md-6">
+    <div class="col-md-4 margin">
       <label for="edificacoes">Edificações</label>
-      <p-dropdown [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '60%'}" filter="filter" placeholder="escolha ou crie..." filterPlaceholder="buscar..." editable="editable" required></p-dropdown>
+      <br><p-dropdown [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
     </div>
 
     <!--Formação-->
-    <div class="col-xs-12 col-md-6">
+    <div class="col-md-4 margin">
       <label for="formacao">Formação</label>
-      <p-dropdown [options]="listaEspecialidades" [(ngModel)]="especialidadeId" [style]="{'width': '20%'}" filter="filter" placeholder="escolha..." filterPlaceholder="buscar..." required></p-dropdown>
+      <br><p-dropdown [options]="listaEspecialidades" [(ngModel)]="especialidadeId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
-    <div class="col-xs-12 col-md-6">
-      <label for="formacao">Serviços</label>
-      <p-dropdown *ngIf="toNumber(especialidadeId)" [options]="listaServicos" [(ngModel)]="servicoId" [style]="{'width': '60%'}" filter="filter" placeholder="escolha..." filterPlaceholder="buscar..." required></p-dropdown>
-      <span *ngIf="!toNumber(especialidadeId)" style="font-style: italic;">Escolha uma formação para ver os serviços associados</span>
+    <!--Serviços-->
+    <div class="col-md-4 margin">
+      <label for="servicos">Serviços</label>
+      <!--*ngIf="toNumber(especialidadeId)" retirei da linha de baixo pois estava impedindo o funcionamento-->
+      <br><p-dropdown [options]="listaServicos" [(ngModel)]="servicoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+      <!--<span *ngIf="!toNumber(especialidadeId)" style="font-style: italic;">Escolha uma formação para ver os serviços associados</span>-->
+    </div>
+
+    <!--Palavras chave-->
+    <div class="col-md-12 margin">
+      <label for="palavrasChave">Palavras Chave</label>
+      <br><p-dropdown [options]="palavrasChave"  [style]="{'width': '100%'}" filter="filter" filterPlaceholder="Buscar..." required></p-dropdown>
+    </div>
+
+    <!--Palavras chave-->
+    <div class="col-md-6 margin">
+      <label for="dataDaVistoria">Data da Vistoria</label>
+      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
+    </div>
+
+    <!--Palavras chave-->
+    <div class="col-md-6 margin">
+      <label for="dataDaElaboracao">Data da Elaboração</label>
+      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
+    </div>
+
+    <!--Local-->
+    <div class="col-md-6 margin">
+      <label for="local">Local</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--Rua-->
+    <div class="col-md-6 margin">
+      <label for="rua">Rua</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--Número-->
+    <div class="col-md-6 margin">
+      <label for="numero">Número</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--Complemento-->
+    <div class="col-md-6 margin">
+      <label for="complemento">Complemento</label>
+      <br><input type="text" [style]="{'width': '100%'}">
+    </div>
+
+    <!--Bairro-->
+    <div class="col-md-6 margin">
+      <label for="bairro">Bairro</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--Cidade/UF-->
+    <div class="col-md-6 margin">
+      <label for="cidadeUf">Cidade/UF</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--CEP-->
+    <div class="col-md-6 margin">
+      <label for="cep">CEP</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+
+    <!--Mapa-->
+    <div class="col-md-6 margin">
+      <label for="mapa">Mapa</label>
+      <p-gmap [options]="options" [style]="{'width':'100%','height':'320px'}" ></p-gmap>
     </div>
 
   </div>

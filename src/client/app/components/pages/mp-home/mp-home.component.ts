@@ -7,6 +7,7 @@ import { Injector } from '@angular/core';
 import { Config, RouterExtensions } from '../../../modules/core/index';
 
 import {SelectItem} from 'primeng/primeng';
+import {GMapModule} from 'primeng/primeng';
 
 // services
 import { GateProDataServices } from '../../../services/GateProDataService';
@@ -59,6 +60,14 @@ export class MPHomeComponent {
   assuntoId:                  string;
   edificacaoId:               string;
   tecnicoId:                  string;
+
+  //Data
+  formato: any;
+  calendario: Date;
+  minDate: Date;
+  maxDate: Date;
+
+  //Mapa
 
 
   constructor(private injector: Injector,
@@ -193,4 +202,84 @@ export class MPHomeComponent {
     return Number(v);
   }
 
+  ngOnInit()
+  {
+    this.formato = {
+      firstDayOfWeek: 1,
+      dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+      dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+      dayNamesMin: ["D", "S", "T", "Q", "Q", "S", "S"],
+      monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+      monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+    }
+
+    let today = new Date();
+    let month = today.getMonth();
+    let year = today.getFullYear();
+    let prevMonth = (month === 0) ? 11 : month -1;
+    let prevYear = (prevMonth === 11) ? year - 1 : year;
+    let nextMonth = (month === 11) ? 0 : month + 1;
+    let nextYear = (nextMonth === 0) ? year + 1 : year;
+    this.minDate = new Date();
+    this.minDate.setMonth(prevMonth);
+    this.minDate.setFullYear(prevYear);
+    this.maxDate = new Date();
+    this.maxDate.setMonth(nextMonth);
+    this.maxDate.setFullYear(nextYear);
+
+    this.options = {
+    center: {lat: 36.890257, lng: 30.707417},
+    zoom: 12
+    };
+
+    this.options = {
+            center: {lat: 36.890257, lng: 30.707417},
+            zoom: 12
+        };
+  }
+
+    options: any;
+
+    overlays: any[];
+
+    dialogVisible: boolean;
+
+    markerTitle: string;
+
+    selectedPosition: any;
+
+    infoWindow: any;
+
+    draggable: boolean;
+
+
+    handleMapClick(event) {
+        this.dialogVisible = true;
+        this.selectedPosition = event.latLng;
+    }
+
+    handleOverlayClick(event) {
+        let isMarker = event.overlay.getTitle != undefined;
+
+        if(isMarker) {
+            let title = event.overlay.getTitle();
+            this.infoWindow.setContent('' + title + '');
+            this.infoWindow.open(event.map, event.overlay);
+            event.map.setCenter(event.overlay.getPosition());
+        }
+        else {
+        }
+    }
+
+    zoomIn(map) {
+        map.setZoom(map.getZoom()+1);
+    }
+
+    zoomOut(map) {
+        map.setZoom(map.getZoom()-1);
+    }
+
+    clear() {
+        this.overlays = [];
+    }
 }
