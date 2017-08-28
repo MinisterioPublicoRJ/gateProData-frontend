@@ -12,6 +12,9 @@ import {GMapModule} from 'primeng/primeng';
 // services
 import { GateProDataServices } from '../../../services/GateProDataService';
 
+// Mapa
+import {GMapModule} from 'primeng/primeng';
+
 interface ExpandableSelectItem extends SelectItem {
   category: string;
 }
@@ -283,4 +286,19 @@ export class MPHomeComponent {
     clear() {
         this.overlays = [];
     }
+}
+
+export class MyModel {
+
+    options: any;
+    
+    overlays: any[];
+    
+    ngOnInit() {
+        this.options = {
+            center: {lat: 36.890257, lng: 30.707417},
+            zoom: 12
+        };
+    }
+
 }
