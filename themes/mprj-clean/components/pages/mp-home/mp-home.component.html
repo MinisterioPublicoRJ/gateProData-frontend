@@ -5,7 +5,7 @@
     <p></p>
   </div>
 
-  <div class="row">
+  <div class="row" id="div1">
 
     <div id="solicitante" class="col-md-8 col-sub col-12">
       <label for="solicitante">Solicitante:</label>
@@ -60,18 +60,19 @@
       <br><p-dropdown [options]="palavrasChave"  [style]="{'width': '100%'}" filter="filter" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
-    <!--Palavras chave-->
+    <!--Data da Vistoria-->
     <div class="col-md-6 margin">
       <label for="dataDaVistoria">Data da Vistoria</label>
       <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
     </div>
 
-    <!--Palavras chave-->
+    <!--Data da Elaboração-->
     <div class="col-md-6 margin">
       <label for="dataDaElaboracao">Data da Elaboração</label>
       <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
     </div>
 
+    <div class="row" id="div2">
     <!--Local-->
     <div class="col-md-6 margin">
       <label for="local">Local</label>
@@ -117,8 +118,23 @@
     <!--Mapa-->
     <div class="col-md-6 margin">
       <label for="mapa">Mapa</label>
-      <p-gmap [options]="options" [style]="{'width':'100%','height':'320px'}" ></p-gmap>
+      <p-gmap [options]="options" [style]="{'width':'100%','height':'px'}" ></p-gmap>
     </div>
+
+    <!--Latitude-->
+    <div class="col-md-6 margin">
+      <label for="latitude">Latitude</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+  
+    <!--Longitude-->
+    <div class="col-md-6 margin">
+      <label for="longitude">Longitude</label>
+      <br><input [style]="{'width': '100%'}" type="text">
+    </div>
+    </div>
+
+
 
   </div>
 </div>
