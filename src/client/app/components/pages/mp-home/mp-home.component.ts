@@ -7,13 +7,11 @@ import { Injector } from '@angular/core';
 import { Config, RouterExtensions } from '../../../modules/core/index';
 
 import { SelectItem,
-         GMapModule} from 'primeng/primeng';
+         GMapModule  } from 'primeng/primeng';
 
 // services
 import { GateProDataServices } from '../../../services/GateProDataService';
 
-// Mapa
-import {GMapModule} from 'primeng/primeng';
 
 interface ExpandableSelectItem extends SelectItem {
   category: string;
@@ -291,9 +289,9 @@ export class MPHomeComponent {
 export class MyModel {
 
     options: any;
-    
+
     overlays: any[];
-    
+
     ngOnInit() {
         this.options = {
             center: {lat: 36.890257, lng: 30.707417},
