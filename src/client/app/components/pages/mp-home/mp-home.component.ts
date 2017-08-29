@@ -71,6 +71,11 @@ export class MPHomeComponent {
   //Mapa
   options: any;
   overlays: any[];
+  dialogVisible: boolean;
+  markerTitle: string;
+  selectedPosition: any;
+  infoWindow: any;
+  draggable: boolean;
 
   constructor(private injector: Injector,
               public routerext: RouterExtensions,
@@ -204,15 +209,14 @@ export class MPHomeComponent {
     return Number(v);
   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.formato = {
       firstDayOfWeek: 1,
-      dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
-      dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
-      dayNamesMin: ["D", "S", "T", "Q", "Q", "S", "S"],
-      monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
-      monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+      dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+      dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+      dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+      monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+      monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
     }
 
     let today = new Date();
@@ -230,30 +234,10 @@ export class MPHomeComponent {
     this.maxDate.setFullYear(nextYear);
 
     this.options = {
-    center: {lat: 36.890257, lng: 30.707417},
-    zoom: 12
-    };
-
-    this.options = {
             center: {lat: 36.890257, lng: 30.707417},
             zoom: 12
         };
   }
-
-    options: any;
-
-    overlays: any[];
-
-    dialogVisible: boolean;
-
-    markerTitle: string;
-
-    selectedPosition: any;
-
-    infoWindow: any;
-
-    draggable: boolean;
-
 
     handleMapClick(event) {
         this.dialogVisible = true;
