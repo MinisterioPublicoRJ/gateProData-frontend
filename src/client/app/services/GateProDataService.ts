@@ -200,6 +200,17 @@ export class GateProDataServices {
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
+  public postFormData(formData: FormData) {
+    const headers = new Headers({});
+    let options = new RequestOptions({headers});
+    let url = '/test1234';
+
+    this.http.post(url, formData, options).subscribe(res => {
+      let body = res.json();
+      this.value = body.filename;
+    });
+  }
+
   private getErrorMessage(serviceName: string, url: string) {
     return `Erro ao resgatar '${serviceName}' de '${url}'`;
   }

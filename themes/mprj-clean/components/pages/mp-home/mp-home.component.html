@@ -138,23 +138,26 @@
     <div class="divg row" >
 
       <!--Opinião Técnica-->
-    <div class="col-md-6 margin">
-      <label for="opiniaotecnica">Opinião Técnica</label>
-      <br><input id="opt" [style]="{'width': '100%'}" type="text">
-    </div>
+      <div class="col-md-6 margin">
+        <label for="opiniaotecnica">Opinião Técnica</label>
+        <br><input id="opt" [style]="{'width': '100%'}" type="text">
+      </div>
 
 
-    <!--Técnicos-->
-    <div class="col-md-6 margin">
-      <label for="tecnicos">Técnicos</label>
-      <br><input  [style]="{'width': '100%'}" type="text">
-    '</div>
+      <!--Técnicos-->
+      <div class="col-md-6 margin">
+        <label for="tecnicos">Técnicos</label>
+        <br><input  [style]="{'width': '100%'}" type="text">
+      </div>
 
-    <!--Inserir PDF-->
-    <div class="col-md-6 margin">
-      <label for="inserirpdf">Insira o PDF</label>
-      <br><input  [style]="{'width': '100%'}" type="text">
+      <!--Inserir PDF-->
+      <div class="col-md-6 margin">
+        <label for="inserirpdf">Insira o PDF</label>
+        <br><input  [style]="{'width': '100%'}" type="file" (change)="setFileToUpload($event);">
+      </div>
+
     </div>
-    </div>
+
+  <button class="btn btn-success" (click)="submit();">Heim, Viar</button>
 
   </div>

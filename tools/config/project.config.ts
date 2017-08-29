@@ -73,7 +73,8 @@ export class ProjectConfig extends SeedAdvancedConfig {
     // this.addPackagesBundles(additionalPackages);
 
     this.PROXY_MIDDLEWARE = [
-      require('http-proxy-middleware')('/eci', { ws: false, target: 'http://apps.mprj.mp.br', changeOrigin: true })
+      require('http-proxy-middleware')('/eci',      { ws: false, target: 'http://apps.mprj.mp.br', changeOrigin: true }),
+      require('http-proxy-middleware')('/test1234', { ws: false, target: 'http://localhost:1234/test1234', changeOrigin: true }),
       //require('http-proxy-middleware')('/eci', { ws: true, target: 'http://localhost:1234' })
     ];
 

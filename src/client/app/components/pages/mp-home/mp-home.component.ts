@@ -62,6 +62,8 @@ export class MPHomeComponent {
   edificacaoId:               string;
   tecnicoId:                  string;
 
+  fileToUpload: File;
+
   //Data
   formato: any;
   calendario: Date;
@@ -162,6 +164,18 @@ export class MPHomeComponent {
     // if (this.listaSolicitantes) {
     //   this.listaSolicitantes = this.listaSolicitantes.sort((e1, e2) => ((e2.craai > e1.craai) || ((e2.craai === e1.craai) && (e2.nome > e1.nome))) ? 1 : -1);
     // }
+  }
+
+  setFileToUpload($event) {
+    let files: FileList = $event.target.files || $event.srcElement.files;
+    this.fileToUpload = files[0];
+  }
+
+  submit() {
+    let formData: FormData = new FormData();
+    formData.append('file', this.fileToUpload);
+    formData.append('coco', 'com ou sem acento?');
+    this.gateProDataServices.postFormData(formData);
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente
