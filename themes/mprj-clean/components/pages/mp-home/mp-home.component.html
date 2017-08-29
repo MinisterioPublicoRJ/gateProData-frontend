@@ -116,7 +116,11 @@
 
     <!--Mapa-->
     <div class="col-md-6 margin">
-      <label for="mapa">Mapa</label>
+    <label for="mapa">Mapa</label>
+    <p-gmap #gmap [options]="options"></p-gmap>
+    <button type="button" pButton label="Zoom In" icon="fa-search-plus" (click)="zoomIn(gmap.getMap())"></button>
+
+
     </div>
 
     <!--Latitude-->
@@ -144,6 +148,12 @@
     <!--Técnicos-->
     <div class="col-md-6 margin">
       <label for="tecnicos">Técnicos</label>
+      <br><input  [style]="{'width': '100%'}" type="text">
+    '</div>
+
+    <!--Inserir PDF-->
+    <div class="col-md-6 margin">
+      <label for="inserirpdf">Insira o PDF</label>
       <br><input  [style]="{'width': '100%'}" type="text">
     </div>
     </div>
