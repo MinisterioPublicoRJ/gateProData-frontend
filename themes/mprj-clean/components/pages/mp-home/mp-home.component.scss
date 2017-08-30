@@ -43,10 +43,17 @@ input
       
   margin-left: 5px;
   margin-right: 5px;
-  border: 2px solid grey;
+  border: 2px solid black;
   border-radius: 3px;
   margin-bottom: 50px;
   padding-bottom: 10px;
      
 }
 
+.container-fluid {
+  background-color:		#304850;
+}
+
+ input{
+  color:	#2F4F4F;
+}
