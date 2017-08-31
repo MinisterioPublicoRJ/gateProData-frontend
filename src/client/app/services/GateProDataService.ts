@@ -75,6 +75,9 @@ interface IIAvailableBackendServices {
   /** parâmetro: itId */
   downloadPDF:          string;
 
+  /** post do cadastro */
+  formPost:             string;
+
 }
 
 @Injectable()
@@ -83,8 +86,9 @@ export class GateProDataServices {
   private testServiceURLsPrefix: string = `${Config.IS_MOBILE_NATIVE() ? '/' : ''}assets/dados/testes/`;
   private testServiceURLsSuffix: string = '.json';
   private testServiceURLs: IIAvailableBackendServices = {
-    isAuthenticated:      `${this.testServiceURLsPrefix}authenticated${this.testServiceURLsSuffix}`,
-    authenticate:         `${this.testServiceURLsPrefix}authenticate_#{usuario}_#{senhaCodificada}${this.testServiceURLsSuffix}`,
+    isAuthenticated:      `${this.testServiceURLsPrefix}authenticate${this.testServiceURLsSuffix}`,
+    authenticate:         `/gate/api/authentication?password=#{senhaCodificada}&username=#{usuario}`,
+    formPost:             `/gate/api/candidate`,
     listaITs:             `${this.testServiceURLsPrefix}listaIts${this.testServiceURLsSuffix}`,
     listaSolicitantes:    `${this.testServiceURLsPrefix}listaSolicitantes${this.testServiceURLsSuffix}`,
     listaTipos:           `${this.testServiceURLsPrefix}listaTipos${this.testServiceURLsSuffix}`,
@@ -208,10 +212,15 @@ export class GateProDataServices {
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
-  public postFormData(formData: FormData) {
-    const headers = new Headers({});
-    let options = new RequestOptions({headers});
-    let url = '/test1234';
+  public postFormData(fileToUpload: File, formFields: any) {
+    let serviceName:     string = 'formPost';
+    let url:             string = this.serviceURLs.formPost;
+    const headers               = new Headers({});
+    let options                 = new RequestOptions({headers});
+
+    let formData: FormData = new FormData();
+    formData.append('file', this.fileToUpload);
+    formData.set('form', formFields);
 
     this.http.post(url, formData, options).subscribe(res => {
       let body = res.json();
@@ -222,6 +231,23 @@ export class GateProDataServices {
     let serviceName: string = 'authenticated';
     let url:         string = this.serviceURLs.isAuthenticated;
     return this.http.get(url)
+      .map((response: Response) => {
+        return true;
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public authenticate(user: string, unencodedPassword: string): Observable < boolean > {
+    let serviceName:     string = 'authenticate';
+    let encodedPassword: string = btoa(unencodedPassword);
+    let url:             string = this.serviceURLs.authenticate.replace('#{usuario}', user).replace('#{senhaCodificada}', encodedPassword);
+    const headers               = new Headers({});
+    let options                 = new RequestOptions({headers});
+    // let formData: FormData = new FormData();
+    // formData.append('username',         user);
+    // formData.append('password',         encodedPassword);
+    // formData.append('ignoreAuthModule', 'ignoreAuthModule');
+    let _formData: any = {username: user, password: encodedPassword, ignoreAuthModule: 'ignoreAuthModule'};
+    return this.http.post(url, _formData, options)
       .map((response: Response) => {
         return true;
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));

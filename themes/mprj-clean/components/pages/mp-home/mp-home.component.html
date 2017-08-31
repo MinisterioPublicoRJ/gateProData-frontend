@@ -4,7 +4,11 @@
 
     <!--Solicitante-->
     <div id="solicitante" class="col-md-8 col-sub col-12">
-      <label for="solicitante">(autenticado: {{isAuthenticated}}) -- Solicitante:</label>
+      <pre>
+autenticado:               {{isAuthenticated}}) -- {{isAuthenticatedErrorMessaage}};
+tentativa de autenticação: {{autenthicationAttempt}}) -- {{autenthicationAttemptErrorMessaage}};
+      </pre>
+      <label for="solicitante">Solicitante:</label>
       <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
