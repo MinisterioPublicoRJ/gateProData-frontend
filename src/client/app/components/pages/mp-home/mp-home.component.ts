@@ -26,6 +26,9 @@ interface ExpandableSelectItem extends SelectItem {
 })
 export class MPHomeComponent {
 
+  // autenticação
+  isAuthenticated: boolean;
+
   // dados do backend para as listas estáticas
   //listaITs:            IITs[];
   listaSolicitantes:   ExpandableSelectItem[];
@@ -82,6 +85,14 @@ export class MPHomeComponent {
   constructor(private injector: Injector,
               public routerext: RouterExtensions,
               private gateProDataServices: GateProDataServices) {
+
+    // autenticação
+    this.gateProDataServices.isAuthenticated().subscribe(response => {
+      this.isAuthenticated = response;
+    }, error => {
+      this.isAuthenticated = false;
+      this.listaSolicitantesErrorMessage = <any>error
+    });
 
     // listaSolicitantes
     this.gateProDataServices.fetchListaSolicitantes().subscribe(response => {

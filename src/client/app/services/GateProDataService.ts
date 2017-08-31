@@ -40,6 +40,12 @@ import { ITecnicos }       from './ITecnicos';
 /** especificação dos backends disponíveis */
 interface IIAvailableBackendServices {
 
+  // autenticação
+  ///////////////
+
+  isAuthenticated: string;
+  authenticate:    string;  // parâmetros: usuário/senha codificada
+
   // serviços estáticos
   /////////////////////
 
@@ -77,6 +83,8 @@ export class GateProDataServices {
   private testServiceURLsPrefix: string = `${Config.IS_MOBILE_NATIVE() ? '/' : ''}assets/dados/testes/`;
   private testServiceURLsSuffix: string = '.json';
   private testServiceURLs: IIAvailableBackendServices = {
+    isAuthenticated:      `${this.testServiceURLsPrefix}authenticated${this.testServiceURLsSuffix}`,
+    authenticate:         `${this.testServiceURLsPrefix}authenticate_#{usuario}_#{senhaCodificada}${this.testServiceURLsSuffix}`,
     listaITs:             `${this.testServiceURLsPrefix}listaIts${this.testServiceURLsSuffix}`,
     listaSolicitantes:    `${this.testServiceURLsPrefix}listaSolicitantes${this.testServiceURLsSuffix}`,
     listaTipos:           `${this.testServiceURLsPrefix}listaTipos${this.testServiceURLsSuffix}`,
@@ -208,6 +216,15 @@ export class GateProDataServices {
     this.http.post(url, formData, options).subscribe(res => {
       let body = res.json();
     });
+  }
+
+  public isAuthenticated(): Observable < boolean > {
+    let serviceName: string = 'authenticated';
+    let url:         string = this.serviceURLs.isAuthenticated;
+    return this.http.get(url)
+      .map((response: Response) => {
+        return true;
+      }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
   private getErrorMessage(serviceName: string, url: string) {
