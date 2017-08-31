@@ -207,7 +207,6 @@ export class GateProDataServices {
 
     this.http.post(url, formData, options).subscribe(res => {
       let body = res.json();
-      this.value = body.filename;
     });
   }
 
