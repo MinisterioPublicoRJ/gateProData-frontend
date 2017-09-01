@@ -219,7 +219,7 @@ export class GateProDataServices {
     let options                 = new RequestOptions({headers});
 
     let formData: FormData = new FormData();
-    formData.append('file', this.fileToUpload);
+    formData.append('file', fileToUpload);
     formData.set('form', formFields);
 
     this.http.post(url, formData, options).subscribe(res => {

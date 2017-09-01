@@ -15,11 +15,11 @@ import { GateProDataServices } from '../../../services/GateProDataService';
 
 @Component({
   moduleId: module.id,
-  selector: 'mp-home',
-  templateUrl: 'mp-home.component.html',
-  styleUrls: ['mp-home.component.css']
+  selector: 'mp-login',
+  templateUrl: 'mp-login.component.html',
+  styleUrls: ['mp-login.component.css']
 })
-export class MPHomeComponent {
+export class MPLoginComponent {
 
   // autenticação
   isAuthenticated:       boolean;

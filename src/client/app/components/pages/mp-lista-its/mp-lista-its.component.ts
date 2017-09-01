@@ -15,11 +15,11 @@ import { GateProDataServices } from '../../../services/GateProDataService';
 
 @Component({
   moduleId: module.id,
-  selector: 'mp-home',
-  templateUrl: 'mp-home.component.html',
-  styleUrls: ['mp-home.component.css']
+  selector: 'mp-lista-its',
+  templateUrl: 'mp-lista-its.component.html',
+  styleUrls: ['mp-lista-its.component.css']
 })
-export class MPHomeComponent {
+export class MPListaITsComponent {
 
   // autenticação
   isAuthenticated:       boolean;
@@ -78,7 +78,7 @@ export class MPHomeComponent {
       longitude:      '-43.22021484375',
       tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
       opiniaoTecnica: 'minha optec'};
-    //this.gateProDataServices.postFormData(this.fileToUpload, formFields);
+//    this.gateProDataServices.postFormData(this.fileToUpload, formFields);
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente

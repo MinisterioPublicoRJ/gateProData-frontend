@@ -172,6 +172,21 @@ const MutuaAvailableComponentsConfiguration: IMutuaAvailableComponentsConfigurat
     source: '../../components/pages/mp-home/mp-home.component',
     routes: '../../components/pages/mp-home/mp-home.routes',
   },
+  // cadastra IT
+  MPCadastraITComponent: {
+    source: '../../components/pages/mp-cadastra-it/mp-cadastra-it.component',
+    routes: '../../components/pages/mp-cadastra-it/mp-cadastra-it.routes',
+  },
+  // lista ITs
+  MPListaITsComponent: {
+    source: '../../components/pages/mp-lista-its/mp-lista-its.component',
+    routes: '../../components/pages/mp-lista-its/mp-lista-its.routes',
+  },
+  // cadastra IT
+  MPLoginComponent: {
+    source: '../../components/pages/mp-login/mp-login.component',
+    routes: '../../components/pages/mp-login/mp-login.routes',
+  },
 
 };
 
