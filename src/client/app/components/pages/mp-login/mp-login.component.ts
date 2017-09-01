@@ -22,12 +22,17 @@ import { GateProDataServices } from '../../../services/GateProDataService';
 export class MPLoginComponent {
 
   // autenticação
-  isAuthenticated:       boolean;
-  autenthicationAttempt: boolean;
+  isAuthenticated:         boolean;
+  autenthicationAttempted: boolean = false;
+  isAuthenticating:        boolean;   // true enquanto estiver aguardando resultado
 
   // mensagens de erro do backend
-  isAuthenticatedErrorMessage:       string;
-  authenticationAttemptErrorMessage: string;
+  isAuthenticatedErrorMessage:         string;
+  authenticationAttemptedErrorMessage: string;
+
+  // campos
+  username: string;
+  password: string;
 
 
   constructor(private injector: Injector,
@@ -42,43 +47,32 @@ export class MPLoginComponent {
       this.isAuthenticatedErrorMessage = <any>error;
     });
 
-    // submissão de usuário e senha para autenticação
-    this.gateProDataServices.authenticate('luiz.silveira', 'fcrrp4').subscribe(response => {
-      this.autenthicationAttempt = true;
-    }, error => {
-      this.autenthicationAttempt = false;
-      this.authenticationAttemptErrorMessage = <any>error;
-    });
-
   }
 
   ngOnChanges() {}
 
   submit() {
-    let formFields: any = {
-      solicitante:    'SECRETARIA DA PROMOTORIA DE JUSTI\xc7A DE PARATY',
-      principal:      '15926366',
-      vinculado:      '16120829',
-      tipo:           'rese',
-      subtipo:        'ewrwer',
-      edificacoes:    [{nome: 'copa'}],
-      formacao:       '70',
-      servicos:       [{nome: 'copa'}],
-      assuntos:       [{nome: 'Da Lei Geral da Copa'}],
-      dtElab:         '29/08/2017',
-      dtVistoria:     '29/08/2017',
-      local:          'local',
-      logradouro:     'rua',
-      num:            '123',
-      complemento:    '123',
-      bairro:         'bairro',
-      cidade:         'rj',
-      cep:            '2244035',
-      latitude:       '-22.88756221517449',
-      longitude:      '-43.22021484375',
-      tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
-      opiniaoTecnica: 'minha optec'};
-    //this.gateProDataServices.postFormData(this.fileToUpload, formFields);
+    this.isAuthenticating = true;
+    // submissão de usuário e senha para autenticação
+    this.gateProDataServices.authenticate(this.username, this.password).subscribe(response => {
+      this.autenthicationAttempted = true;
+      this.isAuthenticated         = true;
+      this.isAuthenticating        = false;
+
+      // redireciona
+      this.routerext.navigate(['cadastra-it'], {
+        transition: {
+          duration: 1000,
+          name: 'slideTop',
+        }
+      });
+
+    }, error => {
+      this.autenthicationAttempted = true;
+      this.isAuthenticated         = false;
+      this.isAuthenticating        = false;
+      this.authenticationAttemptedErrorMessage = <any>error;
+    });
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente

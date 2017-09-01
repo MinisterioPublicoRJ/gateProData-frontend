@@ -12,15 +12,21 @@
 
 import { AppComponent } from '../../components/app.component';
 import { MPHomeComponent } from '../../components/pages/mp-home/mp-home.component';
+import { MPCadastraITComponent } from '../../components/pages/mp-cadastra-it/mp-cadastra-it.component';
+import { MPListaITsComponent } from '../../components/pages/mp-lista-its/mp-lista-its.component';
+import { MPLoginComponent } from '../../components/pages/mp-login/mp-login.component';
 
-export const MutuaExportedComponents: any[] = [AppComponent,MPHomeComponent];
+export const MutuaExportedComponents: any[] = [AppComponent,MPHomeComponent,MPCadastraITComponent,MPListaITsComponent,MPLoginComponent];
 
 // routes
 /////////
 
 import { MPHomeRoutes } from '../../components/pages/mp-home/mp-home.routes';
+import { MPCadastraITRoutes } from '../../components/pages/mp-cadastra-it/mp-cadastra-it.routes';
+import { MPListaITsRoutes } from '../../components/pages/mp-lista-its/mp-lista-its.routes';
+import { MPLoginRoutes } from '../../components/pages/mp-login/mp-login.routes';
 
-export const MutuaExportedRoutes: any[] = [...MPHomeRoutes];
+export const MutuaExportedRoutes: any[] = [...MPHomeRoutes,...MPCadastraITRoutes,...MPListaITsRoutes,...MPLoginRoutes];
 
 // modules
 //////////

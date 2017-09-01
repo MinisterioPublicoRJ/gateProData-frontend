@@ -28,7 +28,6 @@ export class MPCadastraITComponent {
 
   // autenticação
   isAuthenticated:       boolean;
-  autenthicationAttempt: boolean;
 
   // dados do backend para as listas estáticas
   //listaITs:            IITs[];
@@ -45,7 +44,6 @@ export class MPCadastraITComponent {
 
   // mensagens de erro do backend
   isAuthenticatedErrorMessage:       string;
-  authenticationAttemptErrorMessage: string;
   listaITsErrorMessage:              string;
   listaSolicitantesErrorMessage:     string;
   listaTiposErrorMessage:            string;
@@ -95,14 +93,6 @@ export class MPCadastraITComponent {
     }, error => {
       this.isAuthenticated = false;
       this.isAuthenticatedErrorMessage = <any>error;
-    });
-
-    // submissão de usuário e senha para autenticação
-    this.gateProDataServices.authenticate('luiz.silveira', 'fcrrp4').subscribe(response => {
-      this.autenthicationAttempt = true;
-    }, error => {
-      this.autenthicationAttempt = false;
-      this.authenticationAttemptErrorMessage = <any>error;
     });
 
     // listaSolicitantes

@@ -1,64 +1,73 @@
-h1{
-  text-align:right;
-}
-
-p{
-  font-size: 95%;
-  text-align: right;
-}
-
-.link {
+.login {
+  width: 300px;
+  margin: 0 auto;
+  text-align: center;
+  height: 350px;
   position: absolute;
-  bottom: 0%;
-  right: 2%;
-  font-family: 'Roboto-Condensed';
-  font-size: 150%;
-  line-height: 90%;
-  text-align: right;
-  color: rgb(5, 127, 178);
-  cursor: pointer;
+  top: 50%;
+  left: 50%;
+  margin: -175px 0 0 -150px;
 }
 
-.dropDownItem {
-  font-size:  14px;
-  float: right;
-  margin-top: 4px;
+.login-logo {
+  width: 50%;
+  margin: 0 0 30px;
 }
 
-#solicitante {
-  margin-right: 50%;
+.login-error {
+  background: #FFDDDD;
+  border: 1px solid #FF0000;
+  padding: 8px 15px;
+  font-weight: 700;
+  font-size: 12px;
+  margin: 0 0 20px;
 }
 
-.margin
-{
-  margin-top: 25px;
+.login-form {
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+  padding: 30px 40px;
+  display: inline-block;
 }
 
-input
-{
+.login-form--input {
   width: 100%;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin: 0 0 15px;
+  font-size: 13px;
 }
 
-.row {
-      
-  margin-left: 5px;
-  margin-right: 5px;
-  border: 2px solid black;
-  border-radius: 3px;
-  margin-bottom: 50px;
-  padding-bottom: 10px;
-     
+.login-form--input:focus {
+  border: 1px solid #2E3A48;
+  box-shadow: 0 0 3px #2E3A48;
 }
 
-.container-fluid {
-  background-color:	#C0C0C0;
+.login-form--button {
+  width: 50%;
+  float: right;
+  padding: 10px 20px;
+  background: #2E3A48;
+  color: #FFFFFF;
+  font-size: 13px;
+  border: none;
+  border-radius: 5px;
+}
+.login-form--button:hover {
+  color: #FFFFFF;
 }
 
- input{
-  border: 2px ;
-  border-radius: 4px;
+.logout {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #364354;
+  width: 180px;
+  border: none;
+  text-align: left;
+  color: white;
+  font-size: 14px;
+  padding: 15px 15px;
 }
-
- .row{
-   background-color: #D3D3D3;
- }

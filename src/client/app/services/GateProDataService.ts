@@ -107,10 +107,27 @@ export class GateProDataServices {
   //
   // };
 
-  private serviceURLs: IIAvailableBackendServices;
+  private serviceURLs: IIAvailableBackendServices = {
+    isAuthenticated:      `/gate/api/authenticate`,
+    authenticate:         `/gate/api/authentication?password=#{senhaCodificada}&username=#{usuario}`,
+    formPost:             `/gate/api/candidate`,
+    listaITs:             `/gate/api/listaIts`,
+    listaSolicitantes:    `/gate/api/listaSolicitantes`,
+    listaTipos:           `/gate/api/listaTipos`,
+    listaEspecialidades:  `/gate/api/listaEspecialidades`,
+    listaAssuntos:        `/gate/api/listaAssuntos`,
+    listaEdificacoes:     `/gate/api/listaEdificacoes`,
+    listaTecnicos:        `/gate/api/listaTecnicos`,
+    verificaMPRJ:         `/gate/api/verificaMPRJ/#{parameters}`,
+    listaMPRJsVinculados: `/gate/api/listaMPRJs/#{parameters}`,
+    listaSubTipos:        `/gate/api/listaSubTipos/#{parameters}`,
+    listaServicos:        `/gate/api/listaServicos/#{parameters}`,
+    downloadPDF:          `/gate/api/downloadPDF/#{parameters}.pdf`,
+  };
 
   constructor(private http: Http) {
-    this.serviceURLs = this.testServiceURLs;
+    //this.serviceURLs = this.testServiceURLs;  // teste estático local
+    this.serviceURLs = this.serviceURLs;      // backend
   }
 
   public fetchListaITs(): Observable < IITs[] > {
@@ -228,16 +245,18 @@ export class GateProDataServices {
   }
 
   public isAuthenticated(): Observable < boolean > {
-    let serviceName: string = 'authenticated';
+    let serviceName: string = 'authenticate';
     let url:         string = this.serviceURLs.isAuthenticated;
-    return this.http.get(url)
+    const headers           = new Headers({});
+    let options             = new RequestOptions({headers});
+    return this.http.get(url, options)
       .map((response: Response) => {
         return true;
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
   public authenticate(user: string, unencodedPassword: string): Observable < boolean > {
-    let serviceName:     string = 'authenticate';
+    let serviceName:     string = 'authentication';
     let encodedPassword: string = btoa(unencodedPassword);
     let url:             string = this.serviceURLs.authenticate.replace('#{usuario}', user).replace('#{senhaCodificada}', encodedPassword);
     const headers               = new Headers({});
