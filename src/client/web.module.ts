@@ -27,7 +27,7 @@ import { SampleModule, SampleEffects } from './app/modules/sample/index';
 import { AppReducer } from './app/modules/ngrx/index';
 
 // services
-import { GateProDataServices } from './app/services/GateProDataService';
+import { GateProDataServices } from './app/services/GateProDataServices';
 
 
 // config

@@ -10,7 +10,7 @@ import { SelectItem,
          GMapModule  } from 'primeng/primeng';
 
 // services
-import { GateProDataServices } from '../../../services/GateProDataService';
+import { GateProDataServices } from '../../../services/GateProDataServices';
 
 
 interface ExpandableSelectItem extends SelectItem {
@@ -44,7 +44,7 @@ export class MPCadastraITComponent {
 
   // mensagens de erro do backend
   isAuthenticatedErrorMessage:       string;
-  listaITsErrorMessage:              string;
+  //listaITsErrorMessage:              string;
   listaSolicitantesErrorMessage:     string;
   listaTiposErrorMessage:            string;
   listaEspecialidadesErrorMessage:   string;
@@ -93,6 +93,17 @@ export class MPCadastraITComponent {
     }, error => {
       this.isAuthenticated = false;
       this.isAuthenticatedErrorMessage = <any>error;
+
+      // redireciona
+      if (!this.isAuthenticated) {
+        this.routerext.navigate(['/login'], {
+          transition: {
+            duration: 1000,
+            name: 'slideTop',
+          }
+        });
+      }
+
     });
 
     // listaSolicitantes

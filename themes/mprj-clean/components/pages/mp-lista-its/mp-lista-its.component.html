@@ -1,167 +1,47 @@
-<div class="container-fluid">
-
-  <div class="divg row" >
-
-    <!--Solicitante-->
-    <div id="solicitante" class="col-md-8 col-sub col-12">
-      <pre>
-autenticado:               {{isAuthenticated}}) -- {{isAuthenticatedErrorMessaage}};
-tentativa de autenticação: {{autenthicationAttempt}}) -- {{autenthicationAttemptErrorMessaage}};
-      </pre>
-      <label for="solicitante">Solicitante:</label>
-      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+<div class="lista-its" ng-hide="registering">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <h3 class="StepTitle">
+        Lista de ITs
+      </h3>
     </div>
-
-    <!--MPRJ Principal / Associado-->
-    <div class="col-md-4 margin">
-      <label for="mprjPrincipal">MPRJ Principal</label>
-      <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-    </div>
-    <div class="col-md-4 margin">
-      <label for="MPRJVinculado">MPRJ Vinculado</label>
-      <p-dropdown [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-    </div>
-
-    <!--Tipo / Subtipo-->
-    <div class="col-md-2 margin">
-      <label for="tipo">Tipo</label>
-      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
-    </div>
-
-    <div class="col-md-1 margin">
-      <label for="subtipo">Subtipo</label>
-      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
-      <br><input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
-    </div>
-
-    <!--Edificações-->
-    <div class="col-md-4 margin">
-      <label for="edificacoes">Edificações</label>
-      <br><p-dropdown [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
-    </div>
-
-    <!--Formação-->
-    <div class="col-md-4 margin">
-      <label for="formacao">Formação</label>
-      <br><p-dropdown [options]="listaEspecialidades" [(ngModel)]="especialidadeId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-    </div>
-
-    <!--Serviços-->
-    <div class="col-md-4 margin">
-      <label for="servicos">Serviços</label>
-      <!--*ngIf="toNumber(especialidadeId)" retirei da linha de baixo pois estava impedindo o funcionamento-->
-      <br><p-dropdown [options]="listaServicos" [(ngModel)]="servicoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-      <!--<span *ngIf="!toNumber(especialidadeId)" style="font-style: italic;">Escolha uma formação para ver os serviços associados</span>-->
-    </div>
-
-    <!--Palavras chave-->
-    <div class="col-md-12 margin">
-      <label for="palavrasChave">Palavras Chave</label>
-      <br><p-dropdown [options]="palavrasChave"  [style]="{'width': '100%'}" filter="filter" filterPlaceholder="Buscar..." required></p-dropdown>
-    </div>
-
-    <!--Data da Vistoria-->
-    <div class="col-md-6 margin">
-      <label for="dataDaVistoria">Data da Vistoria</label>
-      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
-    </div>
-
-    <!--Data da Elaboração-->
-    <div class="col-md-6 margin">
-      <label for="dataDaElaboracao">Data da Elaboração</label>
-      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
+    <div class="col-xs-12 col-sm-6">
+      <div class="buttons-row">
+        <mp-link href="cadastraIT">Cadastrar nova IT</mp-link>
+      </div>
     </div>
   </div>
 
-    <div class="divg row">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Data da Vistoria</th>
+      <th>Data da Elaboração</th>
+      <th>Opinião Técnica</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="listaITs.length === 0">
+      <td colspan="5">Não existem ITs cadastradas.</td>
+    </tr>
+    <tr *ngFor="let it of listaITs">
+      <td>{{formatIT(it.dk)}}</td>
+      <td>{{stringToDate(it.dt_VISTORIA)   | date : 'dd/MM/yyyy'}}</td>
+      <td>{{stringToDate(it.dt_ELABORACAO) | date : 'dd/MM/yyyy'}}</td>
+      <td>{{it.opiniao_TECNICA}}</td>
+      <td><a href="{{gateProDataServices.getPDFDownloadURL(it.dk)}}">download</a></td>
+    </tr>
+    </tbody>
+  </table>
+<!--  <div style="text-align: center" ng-show="listaITs.length > 0">
+    <button ng-click="currentPage=currentPage-1" ng-disabled="currentPage == 0">Anterior</button>
+    {{currentPage+1}} / {{numberOfPages()}}
+    <button ng-click="currentPage=currentPage+1" ng-disabled="currentPage >= listaITs.length/pageSize - 1">Próxima</button>
+  </div>-->
 
-    <!--Logradouro-->
-    <div class="col-md-6 margin">
-      <label for="logradouro">Logradouro</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Rua-->
-    <div class="col-md-6 margin">
-      <label for="rua">Rua</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Número-->
-    <div class="col-md-6 margin">
-      <label for="numero">Número</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Complemento-->
-    <div class="col-md-6 margin">
-      <label for="complemento">Complemento</label>
-      <br><input type="text" [style]="{'width': '100%'}">
-    </div>
-
-    <!--Bairro-->
-    <div class="col-md-6 margin">
-      <label for="bairro">Bairro</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Cidade/UF-->
-    <div class="col-md-6 margin">
-      <label for="cidadeUf">Cidade/UF</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--CEP-->
-    <div class="col-md-6 margin">
-      <label for="cep">CEP</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Mapa-->
-    <div class="col-md-6 margin">
-    <label for="mapa">Mapa</label>
-      <!--<p-gmap #gmap [options]="options"></p-gmap>
-      <button type="button" pButton label="Zoom In" icon="fa-search-plus" (click)="zoomIn(gmap.getMap())"></button>-->
-
-
-    </div>
-
-    <!--Latitude-->
-    <div class="col-md-6 margin">
-      <label for="latitude">Latitude</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Longitude-->
-    <div class="col-md-6 margin">
-      <label for="longitude">Longitude</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-    </div>
-
-    <div class="divg row" >
-
-      <!--Opinião Técnica-->
-      <div class="col-md-6 margin">
-        <label for="opiniaotecnica">Opinião Técnica</label>
-        <br><input id="opt" [style]="{'width': '100%'}" type="text">
-      </div>
-
-
-      <!--Técnicos-->
-      <div class="col-md-6 margin">
-        <label for="tecnicos">Técnicos</label>
-        <br><input  [style]="{'width': '100%'}" type="text">
-      </div>
-
-      <!--Inserir PDF-->
-      <div class="col-md-6 margin">
-        <label for="inserirpdf">Insira o PDF</label>
-        <br><input  [style]="{'width': '100%'}" type="file" (change)="setFileToUpload($event);">
-      </div>
-
-    </div>
-
-  <button class="btn btn-success" (click)="submit();">Heim, Viar</button>
-
+  <div class="buttons-row">
+    <mp-link href="cadastraIT">Cadastrar nova IT</mp-link>
   </div>
+</div>

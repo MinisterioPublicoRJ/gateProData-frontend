@@ -10,7 +10,7 @@ import { SelectItem,
          GMapModule  } from 'primeng/primeng';
 
 // services
-import { GateProDataServices } from '../../../services/GateProDataService';
+import { GateProDataServices } from '../../../services/GateProDataServices';
 
 
 @Component({
@@ -42,6 +42,17 @@ export class MPLoginComponent {
     // consulta de autenticação
     this.gateProDataServices.isAuthenticated().subscribe(response => {
       this.isAuthenticated = response;
+
+      // redireciona
+      if (this.isAuthenticated) {
+        this.routerext.navigate(['/cadastraIT'], {
+          transition: {
+            duration: 1000,
+            name: 'slideTop',
+          }
+        });
+      }
+
     }, error => {
       this.isAuthenticated = false;
       this.isAuthenticatedErrorMessage = <any>error;
@@ -60,7 +71,7 @@ export class MPLoginComponent {
       this.isAuthenticating        = false;
 
       // redireciona
-      this.routerext.navigate(['cadastra-it'], {
+      this.routerext.navigate(['/cadastraIT'], {
         transition: {
           duration: 1000,
           name: 'slideTop',

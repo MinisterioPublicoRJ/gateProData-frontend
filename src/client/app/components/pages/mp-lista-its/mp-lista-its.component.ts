@@ -10,7 +10,11 @@ import { SelectItem,
          GMapModule  } from 'primeng/primeng';
 
 // services
-import { GateProDataServices } from '../../../services/GateProDataService';
+import { GateProDataServices } from '../../../services/GateProDataServices';
+
+// interfaces
+import { IITs } from '../../../services/IITs';
+
 
 
 @Component({
@@ -25,9 +29,16 @@ export class MPListaITsComponent {
   isAuthenticated:       boolean;
   autenthicationAttempt: boolean;
 
+  // dados do backend
+  listaITs:            IITs[] = [];
+
   // mensagens de erro do backend
   isAuthenticatedErrorMessage:       string;
   authenticationAttemptErrorMessage: string;
+  listaITsErrorMessage:              string;
+
+  // itens selecionados das listas;
+  itId:                       string;
 
 
   constructor(private injector: Injector,
@@ -40,45 +51,34 @@ export class MPListaITsComponent {
     }, error => {
       this.isAuthenticated = false;
       this.isAuthenticatedErrorMessage = <any>error;
+
+      // redireciona
+      if (!this.isAuthenticated) {
+        this.routerext.navigate(['/login'], {
+          transition: {
+            duration: 1000,
+            name: 'slideTop',
+          }
+        });
+      }
+
     });
 
-    // submissão de usuário e senha para autenticação
-    this.gateProDataServices.authenticate('luiz.silveira', 'fcrrp4').subscribe(response => {
-      this.autenthicationAttempt = true;
-    }, error => {
-      this.autenthicationAttempt = false;
-      this.authenticationAttemptErrorMessage = <any>error;
-    });
+    // listaITs
+    this.gateProDataServices.fetchListaITs().subscribe(response => {
+      response = response.sort((e1, e2) => e2.dk < e1.dk ? 1 : -1);
+      this.listaITs = response;
+      // for (let tipo of response) {
+      //   this.listaTipos.push({label: tipo.nome, value: tipo.id});
+      // }
+      this.ngOnChanges();
+    }, error => this.listaITsErrorMessage = <any>error);
 
   }
 
   ngOnChanges() {}
 
   submit() {
-    let formFields: any = {
-      solicitante:    'SECRETARIA DA PROMOTORIA DE JUSTI\xc7A DE PARATY',
-      principal:      '15926366',
-      vinculado:      '16120829',
-      tipo:           'rese',
-      subtipo:        'ewrwer',
-      edificacoes:    [{nome: 'copa'}],
-      formacao:       '70',
-      servicos:       [{nome: 'copa'}],
-      assuntos:       [{nome: 'Da Lei Geral da Copa'}],
-      dtElab:         '29/08/2017',
-      dtVistoria:     '29/08/2017',
-      local:          'local',
-      logradouro:     'rua',
-      num:            '123',
-      complemento:    '123',
-      bairro:         'bairro',
-      cidade:         'rj',
-      cep:            '2244035',
-      latitude:       '-22.88756221517449',
-      longitude:      '-43.22021484375',
-      tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
-      opiniaoTecnica: 'minha optec'};
-//    this.gateProDataServices.postFormData(this.fileToUpload, formFields);
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente
@@ -87,6 +87,14 @@ export class MPListaITsComponent {
   // since 'Number' is not available for use on templates...
   toNumber(v: any): number {
     return Number(v);
+  }
+
+  formatIT(itDk: string): string {
+    return itDk.length === 9 ? +itDk.substring(4) + '/' + itDk.substring(0, 4) : itDk;
+  }
+
+  stringToDate(date: string): Date {
+    new Date(date);
   }
 
   ngOnInit() {}

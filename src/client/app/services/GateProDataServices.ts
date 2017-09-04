@@ -1,6 +1,6 @@
 /** <pre>
- * GateProDataService
- * ==================
+ * GateProDataServices
+ * ===================
  * (created by luiz on Ter, ago, 15, 2017)
  *
  * Consulta serviços do backend para carregar dados dinâmicos
@@ -72,7 +72,7 @@ interface IIAvailableBackendServices {
   /** parâmetro: especialidadeId (ou formaçãoId) */
   listaServicos:        string;
 
-  /** parâmetro: itId */
+  /** parâmetro: itDk */
   downloadPDF:          string;
 
   /** post do cadastro */
@@ -100,7 +100,7 @@ export class GateProDataServices {
     listaMPRJsVinculados: `${this.testServiceURLsPrefix}listaMPRJs_#{parameters}${this.testServiceURLsSuffix}`,
     listaSubTipos:        `${this.testServiceURLsPrefix}listaSubTipos_#{parameters}${this.testServiceURLsSuffix}`,
     listaServicos:        `${this.testServiceURLsPrefix}listaServicos_#{parameters}${this.testServiceURLsSuffix}`,
-    downloadPDF:          `${this.testServiceURLsPrefix}downloadPDF_#{parameters}.pdf`,
+    downloadPDF:          `${this.testServiceURLsPrefix}downloadPDF_#{itDk}.pdf`,
   };
 
   // private productionServiceURLs: IIAvailableBackendServices = {
@@ -122,7 +122,7 @@ export class GateProDataServices {
     listaMPRJsVinculados: `/gate/api/listaMPRJs/#{parameters}`,
     listaSubTipos:        `/gate/api/listaSubTipos/#{parameters}`,
     listaServicos:        `/gate/api/listaServicos/#{parameters}`,
-    downloadPDF:          `/gate/api/downloadPDF/#{parameters}.pdf`,
+    downloadPDF:          `/gate/api/downloadPDF/#{itDk}`,
   };
 
   constructor(private http: Http) {
@@ -270,6 +270,11 @@ export class GateProDataServices {
       .map((response: Response) => {
         return true;
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+  }
+
+  public getPDFDownloadURL(itDk: number): string {
+    let url: string = this.serviceURLs.downloadPDF.replace('#{itDk}', String(itDk));
+    return url;
   }
 
   private getErrorMessage(serviceName: string, url: string) {
