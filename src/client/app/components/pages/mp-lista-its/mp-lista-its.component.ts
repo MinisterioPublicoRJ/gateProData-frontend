@@ -94,7 +94,7 @@ export class MPListaITsComponent {
   }
 
   stringToDate(date: string): Date {
-    new Date(date);
+    return new Date(date);
   }
 
   ngOnInit() {}

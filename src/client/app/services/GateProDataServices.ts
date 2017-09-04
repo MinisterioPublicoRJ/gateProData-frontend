@@ -88,7 +88,7 @@ export class GateProDataServices {
   private testServiceURLs: IIAvailableBackendServices = {
     isAuthenticated:      `${this.testServiceURLsPrefix}authenticate${this.testServiceURLsSuffix}`,
     authenticate:         `/gate/api/authentication?password=#{senhaCodificada}&username=#{usuario}`,
-    formPost:             `/gate/api/candidate`,
+    formPost:             `/gate/api/cadastrar`,
     listaITs:             `${this.testServiceURLsPrefix}listaIts${this.testServiceURLsSuffix}`,
     listaSolicitantes:    `${this.testServiceURLsPrefix}listaSolicitantes${this.testServiceURLsSuffix}`,
     listaTipos:           `${this.testServiceURLsPrefix}listaTipos${this.testServiceURLsSuffix}`,
@@ -110,7 +110,7 @@ export class GateProDataServices {
   private serviceURLs: IIAvailableBackendServices = {
     isAuthenticated:      `/gate/api/authenticate`,
     authenticate:         `/gate/api/authentication?password=#{senhaCodificada}&username=#{usuario}`,
-    formPost:             `/gate/api/candidate`,
+    formPost:             `/gate/api/cadastrar`,
     listaITs:             `/gate/api/listaIts`,
     listaSolicitantes:    `/gate/api/listaSolicitantes`,
     listaTipos:           `/gate/api/listaTipos`,
@@ -230,14 +230,14 @@ export class GateProDataServices {
   }
 
   public postFormData(fileToUpload: File, formFields: any) {
-    let serviceName:     string = 'formPost';
+    let serviceName:     string = 'cadastrar';
     let url:             string = this.serviceURLs.formPost;
-    const headers               = new Headers({});
+    const headers               = new Headers({'Content-Type': undefined});
     let options                 = new RequestOptions({headers});
 
     let formData: FormData = new FormData();
     formData.append('file', fileToUpload);
-    formData.set('form', formFields);
+    formData.set('form', JSON.stringify(formFields));
 
     this.http.post(url, formData, options).subscribe(res => {
       let body = res.json();
