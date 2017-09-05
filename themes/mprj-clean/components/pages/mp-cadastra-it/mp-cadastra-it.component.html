@@ -4,10 +4,6 @@
 
     <!--Solicitante-->
     <div id="solicitante" class="col-md-8 col-sub col-12">
-      <pre>
-autenticado:               {{isAuthenticated}}) -- {{isAuthenticatedErrorMessaage}};
-tentativa de autenticação: {{autenthicationAttempt}}) -- {{autenthicationAttemptErrorMessaage}};
-      </pre>
       <label for="solicitante">Solicitante:</label>
       <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
@@ -163,5 +159,11 @@ tentativa de autenticação: {{autenthicationAttempt}}) -- {{autenthicationAttem
     </div>
 
   <button class="btn btn-success" (click)="submit();">Heim, Viar</button>
+
+  <pre *ngIf="postFormDataResult">
+postFormDataResult:         (errCod: {{postFormDataResult.errCod}} ErrTxt: '{{postFormDataResult.errTxt}}')
+postFormDataErrorMessage:   '{{postFormDataErrorMessage}}'
+  </pre>
+
 
   </div>

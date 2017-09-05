@@ -12,6 +12,9 @@ import { SelectItem,
 // services
 import { GateProDataServices } from '../../../services/GateProDataServices';
 
+// interfaces
+import { ICadastrar } from '../../../services/ICadastrar';
+
 
 interface ExpandableSelectItem extends SelectItem {
   category: string;
@@ -42,6 +45,9 @@ export class MPCadastraITComponent {
   listaSubTipos: SelectItem[];
   listaServicos: SelectItem[];
 
+  // resultado do cadastro
+  postFormDataResult: ICadastrar;
+
   // mensagens de erro do backend
   isAuthenticatedErrorMessage:       string;
   //listaITsErrorMessage:              string;
@@ -53,6 +59,7 @@ export class MPCadastraITComponent {
   listaTecnicosErrorMessage:         string;
   listaSubTiposErrorMessage:         string;
   listaServicosErrorMessage:         string;
+  postFormDataErrorMessage:          string;
 
 
   // itens selecionados das listas;
@@ -195,18 +202,41 @@ export class MPCadastraITComponent {
   }
 
   submit() {
+    // post de algo como
+    // {"solicitante":"CRAAI ANGRA DOS REIS",
+    //  "principal":"15926366",
+    //  "vinculado":"16120829",
+    //  "tipo":"Teste",
+    //  "subtipo":"tester",
+    //  "edificacoes":[{"nome":"edf"}],
+    //  "formacao":"70",
+    //  "servicos":[{"nome":"srv"}],
+    //  "assuntos":[{"nome":"Biossegurança e Organismos Transgênicos "}],
+    //  "dtElab":"05/09/2017",
+    //  "dtVistoria":"05/09/2017",
+    //  "local":"local",
+    //  "logradouro":"rua",
+    //  "num":123,
+    //  "complemento":"123",
+    //  "bairro":"bairro",
+    //  "cidade":"cidadeuf",
+    //  "cep":"2244035",
+    //  "latitude":-22.826820400544044,
+    //  "longitude":-43.2861328125,
+    //  "tecnicos":[{"mat":"00007374","nome":"ADRIANA DE LIMA SILVA"}],
+    //  "opiniaoTecnica":"optec"}
     let formFields: any = {
-      solicitante:    'SECRETARIA DA PROMOTORIA DE JUSTI\xc7A DE PARATY',
+      solicitante:    'CRAAI ANGRA DOS REIS',
       principal:      '15926366',
       vinculado:      '16120829',
-      tipo:           'rese',
-      subtipo:        'ewrwer',
-      edificacoes:    [{nome: 'copa'}],
+      tipo:           'Teste',
+      subtipo:        'tester',
+      edificacoes:    [{nome: 'edf'}],
       formacao:       '70',
-      servicos:       [{nome: 'copa'}],
-      assuntos:       [{nome: 'Da Lei Geral da Copa'}],
-      dtElab:         '29/08/2017',
-      dtVistoria:     '29/08/2017',
+      servicos:       [{nome: 'srv'}],
+      assuntos:       [{nome: 'Biossegurança e Organismos Transgênicos '}],
+      dtElab:         '05/09/2017',
+      dtVistoria:     '05/09/2017',
       local:          'local',
       logradouro:     'rua',
       num:            '123',
@@ -217,8 +247,10 @@ export class MPCadastraITComponent {
       latitude:       '-22.88756221517449',
       longitude:      '-43.22021484375',
       tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
-      opiniaoTecnica: 'minha optec'};
-    this.gateProDataServices.postFormData(this.fileToUpload, formFields);
+      opiniaoTecnica: 'optec'};
+    this.gateProDataServices.postFormData(this.fileToUpload, formFields).subscribe(response => {
+      this.postFormDataResult = response;
+    }, error => this.postFormDataErrorMessage = <any>error);
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente

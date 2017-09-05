@@ -36,6 +36,7 @@ import { IServicos }       from './IServicos';
 import { IAssuntos }       from './IAssuntos';
 import { IEdificacoes }    from './IEdificacoes';
 import { ITecnicos }       from './ITecnicos';
+import { ICadastrar }      from './ICadastrar';
 
 /** especificação dos backends disponíveis */
 interface IIAvailableBackendServices {
@@ -229,19 +230,20 @@ export class GateProDataServices {
       }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
-  public postFormData(fileToUpload: File, formFields: any) {
+  public postFormData(fileToUpload: File, formFields: any): Observable < ICadastrar > {
     let serviceName:     string = 'cadastrar';
     let url:             string = this.serviceURLs.formPost;
-    const headers               = new Headers({'Content-Type': undefined});
+    const headers               = new Headers();
     let options                 = new RequestOptions({headers});
 
     let formData: FormData = new FormData();
-    formData.append('file', fileToUpload);
     formData.set('form', JSON.stringify(formFields));
+    formData.append('file', fileToUpload);
 
-    this.http.post(url, formData, options).subscribe(res => {
-      let body = res.json();
-    });
+    return this.http.post(url, formData, options)
+      .map((response: Response) => {
+        return < ICadastrar > response.json();
+    }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
   }
 
   public isAuthenticated(): Observable < boolean > {

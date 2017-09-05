@@ -76,6 +76,7 @@ export class ProjectConfig extends SeedAdvancedConfig {
       //require('http-proxy-middleware')('/eci',      { ws: false, target: 'http://apps.mprj.mp.br', changeOrigin: true }),
       //require('http-proxy-middleware')('/gate/api', { ws: false, target: 'http://localhost:1234',  changeOrigin: true }),
       require('http-proxy-middleware')('/gate/api', { ws: false, target: 'http://apps.mprj.mp.br',  changeOrigin: true }),
+      //require('http-proxy-middleware')('/gate/api', { ws: false, target: 'http://localhost:8091',  changeOrigin: true }),
     ];
 
     /* Add to or override NPM module configurations: */
