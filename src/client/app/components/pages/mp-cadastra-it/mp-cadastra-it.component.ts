@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { Injector } from '@angular/core';
-import { Config, RouterExtensions } from '../../../modules/core/index';
+import { Config, RouterExtensions, ConsoleService } from '../../../modules/core/index';
 
 import { SelectItem,
          GMapModule  } from 'primeng/primeng';
@@ -42,28 +42,36 @@ export class MPCadastraITComponent {
   listaTecnicos:       SelectItem[];
 
   // dados do backend para as listas dinâmicas
-  listaSubTipos: SelectItem[];
-  listaServicos: SelectItem[];
+  listaSubTipos:          SelectItem[];
+  listaServicos:          SelectItem[];
+  listaMPRJPrincipais:    SelectItem[];
+  listaMPRJVinculados:    SelectItem[];
+  fetchedMPRJsVinculados: String[];
 
   // resultado do cadastro
   postFormDataResult: ICadastrar;
 
   // mensagens de erro do backend
-  isAuthenticatedErrorMessage:       string;
-  //listaITsErrorMessage:              string;
-  listaSolicitantesErrorMessage:     string;
-  listaTiposErrorMessage:            string;
-  listaEspecialidadesErrorMessage:   string;
-  listaAssuntosErrorMessage:         string;
-  listaEdificacoesErrorMessage:      string;
-  listaTecnicosErrorMessage:         string;
-  listaSubTiposErrorMessage:         string;
-  listaServicosErrorMessage:         string;
-  postFormDataErrorMessage:          string;
+  isAuthenticatedErrorMessage:        string;
+  //listaITsErrorMessage:               string;
+  fetchedMPRJsVinculadosErrorMessage: string;
+  listaSolicitantesErrorMessage:      string;
+  listaTiposErrorMessage:             string;
+  listaEspecialidadesErrorMessage:    string;
+  listaAssuntosErrorMessage:          string;
+  listaEdificacoesErrorMessage:       string;
+  listaTecnicosErrorMessage:          string;
+  listaSubTiposErrorMessage:          string;
+  listaServicosErrorMessage:          string;
+  postFormDataErrorMessage:           string;
 
 
   // itens selecionados das listas;
   itId:                       string;
+  mprjPrincipalId:            string;
+  mprjVinculadoId:            string;
+  mprjPrincipalText:          string;
+  mprjVinculadoText:          string;
   solicitanteId:              string;
   _tipoIdOrNewTipoText:       string;   // editable drop down, com evento de edição
   subTipoIdOrNewSubTipoText:  string;   // editable drop down, sem eventos
@@ -92,6 +100,7 @@ export class MPCadastraITComponent {
 
   constructor(private injector: Injector,
               public routerext: RouterExtensions,
+              private console: ConsoleService,
               private gateProDataServices: GateProDataServices) {
 
     // consulta de autenticação
@@ -194,6 +203,46 @@ export class MPCadastraITComponent {
     // if (this.listaSolicitantes) {
     //   this.listaSolicitantes = this.listaSolicitantes.sort((e1, e2) => ((e2.craai > e1.craai) || ((e2.craai === e1.craai) && (e2.nome > e1.nome))) ? 1 : -1);
     // }
+  }
+
+  searchMPRJPrincipal(event) {
+    console.log(`'searchMPRJPrincipal' chamado com '${event.query}'`);
+    this.gateProDataServices.fetchListaMPRJsVinculados(event.query).subscribe(response => {
+      console.log(`'searchMPRJPrincipal' completou a query e ${response.length} elementos foram retornados`);
+      this.fetchedMPRJsVinculados = [];
+      this.listaMPRJVinculados = null;
+      if (response.length > 0) {
+        this.listaMPRJVinculados = [];
+        // encontra id do MPRJ digitado, preenche sugestões de MPRJs vinculados e lista de MPRJs vinculados
+        for (let mprj of response) {
+          if (mprj.mprj == this.mprjPrincipalText) {
+            this.mprjPrincipalId = mprj.id;
+            this.fetchedMPRJsVinculados.push(mprj.mprj);
+          }
+          this.listaMPRJVinculados.push({label: mprj.mprj, value: mprj.id});
+        }
+      }
+    }, error => this.fetchedMPRJsVinculadosErrorMessage = <any>error);
+  }
+
+  searchMPRJVinculado(event) {
+    console.log(`'searchMPRJVinculado' chamado com '${event.query}'`);
+    this.gateProDataServices.fetchListaMPRJsVinculados(event.query).subscribe(response => {
+      console.log(`'searchMPRJVinculado' completou a query e ${response.length} elementos foram retornados`);
+      this.fetchedMPRJsVinculados = [];
+      this.listaMPRJPrincipais = null;
+      if (response.length > 0) {
+        this.listaMPRJPrincipais = [];
+        // encontra id do MPRJ digitado, preenche sugestões de MPRJs vinculados e lista de MPRJs vinculados
+        for (let mprj of response) {
+          if (mprj.mprj == this.mprjVinculadoText) {
+            this.mprjVinculadoId = mprj.id;
+            this.fetchedMPRJsVinculados.push(mprj.mprj);
+          }
+          this.listaMPRJPrincipais.push({label: mprj.mprj, value: mprj.id});
+        }
+      }
+    }, error => this.fetchedMPRJsVinculadosErrorMessage = <any>error);
   }
 
   setFileToUpload($event) {

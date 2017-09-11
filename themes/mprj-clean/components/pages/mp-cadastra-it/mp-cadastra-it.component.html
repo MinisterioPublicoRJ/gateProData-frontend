@@ -11,11 +11,13 @@
     <!--MPRJ Principal / Associado-->
     <div class="col-md-4 margin">
       <label for="mprjPrincipal">MPRJ Principal</label>
-      <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+      <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
+      <p-autoComplete *ngIf="!listaMPRJPrincipais" [(ngModel)]="mprjPrincipalText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJPrincipal($event)"></p-autoComplete>
     </div>
     <div class="col-md-4 margin">
       <label for="MPRJVinculado">MPRJ Vinculado</label>
-      <p-dropdown [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+      <p-dropdown *ngIf="listaMPRJVinculados" [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
+      <p-autoComplete *ngIf="!listaMPRJVinculados" [(ngModel)]="mprjVinculadoText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJVinculado($event)"></p-autoComplete>
     </div>
 
     <!--Tipo / Subtipo-->
@@ -33,7 +35,14 @@
     <!--Edificações-->
     <div class="col-md-4 margin">
       <label for="edificacoes">Edificações</label>
-      <br><p-dropdown [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
+      <!--<p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-multiSelect>-->
+      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required>
+        <ng-template let-option let-i="index" pTemplate="item">
+          {{options}}[{{i}}][{{index}}][{{item}}]
+          <input type="text" [value]="option.label">
+          <!--<div style="font-size:14px;float:right;margin-top:4px">{{option.label}}</div>-->
+        </ng-template>
+      </p-multiSelect>
     </div>
 
     <!--Formação-->
@@ -147,7 +156,7 @@
       <!--Técnicos-->
       <div class="col-md-6 margin">
         <label for="tecnicos">Técnicos</label>
-        <br><input  [style]="{'width': '100%'}" type="text">
+        <br><p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
       </div>
 
       <!--Inserir PDF-->
