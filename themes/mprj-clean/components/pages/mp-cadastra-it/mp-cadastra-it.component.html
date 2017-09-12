@@ -35,12 +35,10 @@
     <!--Edificações-->
     <div class="col-md-4 margin">
       <label for="edificacoes">Edificações</label>
-      <!--<p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-multiSelect>-->
-      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacaoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required>
+      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pMultiSelectOnChange(listaEdificacoes)" required>
         <ng-template let-option let-i="index" pTemplate="item">
-          {{options}}[{{i}}][{{index}}][{{item}}]
-          <input type="text" [value]="option.label">
-          <!--<div style="font-size:14px;float:right;margin-top:4px">{{option.label}}</div>-->
+          <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
+          <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
         </ng-template>
       </p-multiSelect>
     </div>
@@ -54,9 +52,14 @@
     <!--Serviços-->
     <div class="col-md-4 margin">
       <label for="servicos">Serviços</label>
-      <!--*ngIf="toNumber(especialidadeId)" retirei da linha de baixo pois estava impedindo o funcionamento-->
-      <br><p-dropdown [options]="listaServicos" [(ngModel)]="servicoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-      <!--<span *ngIf="!toNumber(especialidadeId)" style="font-style: italic;">Escolha uma formação para ver os serviços associados</span>-->
+      <!--retirei da linha de baixo pois estava impedindo o funcionamento-->
+      <p-multiSelect *ngIf="toNumber(especialidadeId)" [options]="listaServicos" [(ngModel)]="servicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..."  (onChange)="pMultiSelectOnChange(listaServicos)" required>
+        <ng-template let-option let-i="index" pTemplate="item">
+          <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
+          <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
+        </ng-template>
+      </p-multiSelect>
+      <span *ngIf="!toNumber(especialidadeId)" style="font-style: italic;"><br>Escolha uma formação para ver os serviços associados</span>
     </div>
 
     <!--Palavras chave-->
@@ -156,7 +159,13 @@
       <!--Técnicos-->
       <div class="col-md-6 margin">
         <label for="tecnicos">Técnicos</label>
-        <br><p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+        <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+        <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pMultiSelectOnChange(listaEdificacoes)" required>
+          <ng-template let-option let-i="index" pTemplate="item">
+            <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
+            <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
+          </ng-template>
+        </p-multiSelect>
       </div>
 
       <!--Inserir PDF-->

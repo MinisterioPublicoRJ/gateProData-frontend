@@ -76,10 +76,10 @@ export class MPCadastraITComponent {
   _tipoIdOrNewTipoText:       string;   // editable drop down, com evento de edição
   subTipoIdOrNewSubTipoText:  string;   // editable drop down, sem eventos
   _especialidadeId:           string;
-  servicoId:                  string;
-  assuntoId:                  string;
-  edificacaoId:               string;
-  tecnicoId:                  string;
+  servicosSelecionados:       string[];
+  assuntosSelecionados:       string[];
+  edificacoesSelecionadas:    string[];
+  tecnicosSelecionados:       string[];
 
   fileToUpload: File;
 
@@ -174,6 +174,8 @@ export class MPCadastraITComponent {
       for (let assunto of response) {
         this.listaAssuntos.push({label: assunto.a, value: assunto.c});
       }
+      // prepara lista para poder incluir novos elementos
+      this.pMultiSelectOnChange(this.listaAssuntos);
       this.ngOnChanges();
     }, error => this.listaAssuntosErrorMessage = <any>error);
 
@@ -184,6 +186,8 @@ export class MPCadastraITComponent {
       for (let edificacao of response) {
         this.listaEdificacoes.push({label: edificacao.nome, value: edificacao.nome});
       }
+      // prepara lista para poder incluir novos elementos
+      this.pMultiSelectOnChange(this.listaEdificacoes);
       this.ngOnChanges();
     }, error => this.listaEdificacoesErrorMessage = <any>error);
 
@@ -194,6 +198,8 @@ export class MPCadastraITComponent {
       for (let tecnico of response) {
         this.listaTecnicos.push({label: tecnico.nome, value: tecnico.nome});
       }
+      // prepara lista para poder incluir novos elementos
+      this.pMultiSelectOnChange(this.listaTecnicos);
       this.ngOnChanges();
     }, error => this.listaTecnicosErrorMessage = <any>error);
 
@@ -248,6 +254,21 @@ export class MPCadastraITComponent {
   setFileToUpload($event) {
     let files: FileList = $event.target.files || $event.srcElement.files;
     this.fileToUpload = files[0];
+  }
+
+  // Função para ser usada como (onChange) dos componentes p-multiSelect editáveis.
+  // Garante que 'multiselectList[0]' será sempre um elemento vazio, para permitir edição.
+  // Depende de conteúdo específico da clausula <ng-template> no componente <p-multiSelect>
+  //  <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
+  //  <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
+  pMultiSelectOnChange(multiselectList: SelectItem[]) {
+    // garante que elemento #0 está vazio, para poder ser editado
+    if ((multiselectList.length == 0) || (multiselectList[0].label != 'newOption') || ((multiselectList[0].label == 'newOption') && (multiselectList[0].value != '')) ) {
+      console.log(`um elemento zerado FOI adicionado ao multiselectList`);
+      multiselectList.splice(0, 0, {label: 'newOption', value: ''});
+    } else {
+      console.log(`um elemento zerado NÃO foi adicionado ao multiselectList pois #0 = {label: '${multiselectList[0].label}', value: '${multiselectList[0].value}'}. Porém, ${this.mprjVinculadoText}`);
+    }
   }
 
   submit() {
@@ -337,6 +358,8 @@ export class MPCadastraITComponent {
         for (let servico of response) {
           this.listaServicos.push({label: servico.servico, value: servico.id});
         }
+        // prepara lista para poder incluir novos elementos
+        this.pMultiSelectOnChange(this.listaServicos);
         this.ngOnChanges();
       }, error => this.listaServicosErrorMessage = <any>error);
     }
