@@ -10,26 +10,26 @@
 
     <!--MPRJ Principal / Associado-->
     <div class="col-md-4 margin">
-      <label for="mprjPrincipal">MPRJ Principal</label>
+      <label for="mprjPrincipal">MPRJ Principal</label><br/>
       <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
       <p-autoComplete *ngIf="!listaMPRJPrincipais" [(ngModel)]="mprjPrincipalText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJPrincipal($event)"></p-autoComplete>
     </div>
     <div class="col-md-4 margin">
-      <label for="MPRJVinculado">MPRJ Vinculado</label>
+      <label for="MPRJVinculado">MPRJ Vinculado</label><br/>
       <p-dropdown *ngIf="listaMPRJVinculados" [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
       <p-autoComplete *ngIf="!listaMPRJVinculados" [(ngModel)]="mprjVinculadoText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJVinculado($event)"></p-autoComplete>
     </div>
 
     <!--Tipo / Subtipo-->
     <div class="col-md-2 margin">
-      <label for="tipo">Tipo</label>
+      <label for="tipo">Tipo</label><br/>
       <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
     </div>
 
     <div class="col-md-1 margin">
-      <label for="subtipo">Subtipo</label>
+      <label for="subtipo">Subtipo</label><br/>
       <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
-      <br><input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
+      <input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
     </div>
 
     <!--Edificações-->
@@ -52,7 +52,6 @@
     <!--Serviços-->
     <div class="col-md-4 margin">
       <label for="servicos">Serviços</label>
-      <!--retirei da linha de baixo pois estava impedindo o funcionamento-->
       <p-multiSelect *ngIf="toNumber(especialidadeId)" [options]="listaServicos" [(ngModel)]="servicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..."  (onChange)="pMultiSelectOnChange(listaServicos)" required>
         <ng-template let-option let-i="index" pTemplate="item">
           <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
@@ -65,7 +64,11 @@
     <!--Palavras chave-->
     <div class="col-md-12 margin">
       <label for="palavrasChave">Palavras Chave</label>
-      <br><p-dropdown [options]="palavrasChave"  [style]="{'width': '100%'}" filter="filter" filterPlaceholder="Buscar..." required></p-dropdown>
+      <p-multiSelect [options]="listaAssuntos" [(ngModel)]="assuntosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
+        <ng-template let-option let-i="index" pTemplate="item">
+          <span>{{option.label}}</span>
+        </ng-template>
+      </p-multiSelect>
     </div>
 
     <!--Data da Vistoria-->
@@ -159,11 +162,9 @@
       <!--Técnicos-->
       <div class="col-md-6 margin">
         <label for="tecnicos">Técnicos</label>
-        <p-dropdown [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
-        <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pMultiSelectOnChange(listaEdificacoes)" required>
+        <p-multiSelect [options]="listaTecnicos" [(ngModel)]="tecnicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
           <ng-template let-option let-i="index" pTemplate="item">
-            <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
-            <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
+            <span>{{option.label}}</span>
           </ng-template>
         </p-multiSelect>
       </div>

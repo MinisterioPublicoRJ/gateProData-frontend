@@ -174,8 +174,6 @@ export class MPCadastraITComponent {
       for (let assunto of response) {
         this.listaAssuntos.push({label: assunto.a, value: assunto.c});
       }
-      // prepara lista para poder incluir novos elementos
-      this.pMultiSelectOnChange(this.listaAssuntos);
       this.ngOnChanges();
     }, error => this.listaAssuntosErrorMessage = <any>error);
 
@@ -198,8 +196,6 @@ export class MPCadastraITComponent {
       for (let tecnico of response) {
         this.listaTecnicos.push({label: tecnico.nome, value: tecnico.nome});
       }
-      // prepara lista para poder incluir novos elementos
-      this.pMultiSelectOnChange(this.listaTecnicos);
       this.ngOnChanges();
     }, error => this.listaTecnicosErrorMessage = <any>error);
 
