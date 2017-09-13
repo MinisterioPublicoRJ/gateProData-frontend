@@ -20,6 +20,10 @@ interface ExpandableSelectItem extends SelectItem {
   category: string;
 }
 
+interface EditableMultiSelectItem extends SelectItem {
+  newOption ?: boolean;
+}
+
 
 @Component({
   moduleId: module.id,
@@ -38,12 +42,12 @@ export class MPCadastraITComponent {
   listaTipos:          SelectItem[];
   listaEspecialidades: SelectItem[];
   listaAssuntos:       SelectItem[];
-  listaEdificacoes:    SelectItem[];
+  listaEdificacoes:    EditableMultiSelectItem[];
   listaTecnicos:       SelectItem[];
 
   // dados do backend para as listas dinâmicas
   listaSubTipos:          SelectItem[];
-  listaServicos:          SelectItem[];
+  listaServicos:          EditableMultiSelectItem[];
   listaMPRJPrincipais:    SelectItem[];
   listaMPRJVinculados:    SelectItem[];
   fetchedMPRJsVinculados: String[];
@@ -255,15 +259,22 @@ export class MPCadastraITComponent {
   // Função para ser usada como (onChange) dos componentes p-multiSelect editáveis.
   // Garante que 'multiselectList[0]' será sempre um elemento vazio, para permitir edição.
   // Depende de conteúdo específico da clausula <ng-template> no componente <p-multiSelect>
-  //  <input *ngIf="option.label == 'newOption'" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
-  //  <span *ngIf="option.label != 'newOption'">{{option.label}}</span>
-  pMultiSelectOnChange(multiselectList: SelectItem[]) {
+  //  <input *ngIf="option.newOption" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
+  //  <span *ngIf="!option.newOption">{{option.label}}</span>
+  pMultiSelectOnChange(multiselectList: EditableMultiSelectItem[]) {
     // garante que elemento #0 está vazio, para poder ser editado
-    if ((multiselectList.length == 0) || (multiselectList[0].label != 'newOption') || ((multiselectList[0].label == 'newOption') && (multiselectList[0].value != '')) ) {
+    if ((multiselectList.length == 0) || (!multiselectList[0].newOption) || (multiselectList[0].newOption && (multiselectList[0].value != '')) ) {
       console.log(`um elemento zerado FOI adicionado ao multiselectList`);
-      multiselectList.splice(0, 0, {label: 'newOption', value: ''});
+      multiselectList.splice(0, 0, {label: '', value: '', newOption: true});
     } else {
-      console.log(`um elemento zerado NÃO foi adicionado ao multiselectList pois #0 = {label: '${multiselectList[0].label}', value: '${multiselectList[0].value}'}. Porém, ${this.mprjVinculadoText}`);
+      console.log(`um elemento zerado NÃO foi adicionado ao multiselectList pois #0 = {label: '${multiselectList[0].label}', value: '${multiselectList[0].value}', newOption: ${multiselectList[0].newOption}}. Porém, ${this.mprjVinculadoText}`);
+    }
+    for (let o of multiselectList) {
+      if (o.newOption) {
+        o.label = o.value;
+      } else {
+        break;
+      }
     }
   }
 
