@@ -15,12 +15,15 @@ import { GateProDataServices } from '../../../services/GateProDataServices';
 // interfaces
 import { ICadastrar } from '../../../services/ICadastrar';
 
+interface SelectObjectItem extends SelectItem {
+  object: any;
+}
 
-interface ExpandableSelectItem extends SelectItem {
+interface ExpandableSelectObjectItem extends SelectObjectItem {
   category: string;
 }
 
-interface EditableMultiSelectItem extends SelectItem {
+interface EditableMultiSelectObjectItem extends SelectObjectItem {
   newOption ?: boolean;
 }
 
@@ -38,18 +41,18 @@ export class MPCadastraITComponent {
 
   // dados do backend para as listas estáticas
   //listaITs:            IITs[];
-  listaSolicitantes:   ExpandableSelectItem[];
-  listaTipos:          SelectItem[];
-  listaEspecialidades: SelectItem[];
-  listaAssuntos:       SelectItem[];
-  listaEdificacoes:    EditableMultiSelectItem[];
-  listaTecnicos:       SelectItem[];
+  listaSolicitantes:   ExpandableSelectObjectItem[];
+  listaTipos:          SelectObjectItem[];
+  listaEspecialidades: SelectObjectItem[];
+  listaAssuntos:       SelectObjectItem[];
+  listaEdificacoes:    EditableMultiSelectObjectItem[];
+  listaTecnicos:       SelectObjectItem[];
 
   // dados do backend para as listas dinâmicas
-  listaSubTipos:          SelectItem[];
-  listaServicos:          EditableMultiSelectItem[];
-  listaMPRJPrincipais:    SelectItem[];
-  listaMPRJVinculados:    SelectItem[];
+  listaSubTipos:          SelectObjectItem[];
+  listaServicos:          EditableMultiSelectObjectItem[];
+  listaMPRJPrincipais:    SelectObjectItem[];
+  listaMPRJVinculados:    SelectObjectItem[];
   fetchedMPRJsVinculados: String[];
 
   // resultado do cadastro
@@ -76,7 +79,7 @@ export class MPCadastraITComponent {
   mprjVinculadoId:            string;
   mprjPrincipalText:          string;
   mprjVinculadoText:          string;
-  solicitanteId:              string;
+  solicitanteTexto:           string;
   _tipoIdOrNewTipoText:       string;   // editable drop down, com evento de edição
   subTipoIdOrNewSubTipoText:  string;   // editable drop down, sem eventos
   _especialidadeId:           string;
@@ -146,7 +149,7 @@ export class MPCadastraITComponent {
       // });
       this.listaSolicitantes = [];
       for (let solicitante of response) {
-        this.listaSolicitantes.push({label: solicitante.nome, value: solicitante.id, category: solicitante.craai});
+        this.listaSolicitantes.push({label: solicitante.nome, value: solicitante.nome, object: solicitante, category: solicitante.craai});
       }
       this.ngOnChanges();
     }, error => this.listaSolicitantesErrorMessage = <any>error);
@@ -156,7 +159,7 @@ export class MPCadastraITComponent {
       response = response.sort((e1, e2) => e2.nome < e1.nome ? 1 : -1);
       this.listaTipos = [];
       for (let tipo of response) {
-        this.listaTipos.push({label: tipo.nome, value: tipo.id});
+        this.listaTipos.push({label: tipo.nome, value: tipo.id, object: tipo});
       }
       this.ngOnChanges();
     }, error => this.listaTiposErrorMessage = <any>error);
@@ -166,7 +169,7 @@ export class MPCadastraITComponent {
       response = response.sort((e1, e2) => e2.nome < e1.nome ? 1 : -1);
       this.listaEspecialidades = [];
       for (let especialidade of response) {
-        this.listaEspecialidades.push({label: especialidade.nome, value: especialidade.id});
+        this.listaEspecialidades.push({label: especialidade.nome, value: especialidade.id, object: especialidade});
       }
       this.ngOnChanges();
     }, error => this.listaEspecialidadesErrorMessage = <any>error);
@@ -176,7 +179,7 @@ export class MPCadastraITComponent {
       response = response.sort((e1, e2) => e2.a < e1.a ? 1 : -1);
       this.listaAssuntos = [];
       for (let assunto of response) {
-        this.listaAssuntos.push({label: assunto.a, value: assunto.c});
+        this.listaAssuntos.push({label: assunto.a, value: assunto.c, object: assunto});
       }
       this.ngOnChanges();
     }, error => this.listaAssuntosErrorMessage = <any>error);
@@ -186,7 +189,7 @@ export class MPCadastraITComponent {
       response = response.sort((e1, e2) => e2.nome < e1.nome ? 1 : -1);
       this.listaEdificacoes = [];
       for (let edificacao of response) {
-        this.listaEdificacoes.push({label: edificacao.nome, value: edificacao.nome});
+        this.listaEdificacoes.push({label: edificacao.nome, value: edificacao.nome, object: edificacao});
       }
       // prepara lista para poder incluir novos elementos
       this.pMultiSelectOnChange(this.listaEdificacoes);
@@ -196,9 +199,9 @@ export class MPCadastraITComponent {
     // listaTecnicos
     this.gateProDataServices.fetchListaTecnicos().subscribe(response => {
       response = response.sort((e1, e2) => e2.nome < e1.nome ? 1 : -1);
-      this.listaTecnicos = [{label: 'Técnico Inexistente', value: ''}];
+      this.listaTecnicos = [{label: 'Técnico Inexistente', value: '', object: {}}];
       for (let tecnico of response) {
-        this.listaTecnicos.push({label: tecnico.nome, value: tecnico.nome});
+        this.listaTecnicos.push({label: tecnico.nome, value: tecnico.nome, object: tecnico});
       }
       this.ngOnChanges();
     }, error => this.listaTecnicosErrorMessage = <any>error);
@@ -225,7 +228,7 @@ export class MPCadastraITComponent {
             this.mprjPrincipalId = mprj.id;
             this.fetchedMPRJsVinculados.push(mprj.mprj);
           }
-          this.listaMPRJVinculados.push({label: mprj.mprj, value: mprj.id});
+          this.listaMPRJVinculados.push({label: mprj.mprj, value: mprj.id, object: mprj});
         }
       }
     }, error => this.fetchedMPRJsVinculadosErrorMessage = <any>error);
@@ -245,7 +248,7 @@ export class MPCadastraITComponent {
             this.mprjVinculadoId = mprj.id;
             this.fetchedMPRJsVinculados.push(mprj.mprj);
           }
-          this.listaMPRJPrincipais.push({label: mprj.mprj, value: mprj.id});
+          this.listaMPRJPrincipais.push({label: mprj.mprj, value: mprj.id, object: mprj});
         }
       }
     }, error => this.fetchedMPRJsVinculadosErrorMessage = <any>error);
@@ -261,11 +264,11 @@ export class MPCadastraITComponent {
   // Depende de conteúdo específico da clausula <ng-template> no componente <p-multiSelect>
   //  <input *ngIf="option.newOption" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
   //  <span *ngIf="!option.newOption">{{option.label}}</span>
-  pMultiSelectOnChange(multiselectList: EditableMultiSelectItem[]) {
+  pMultiSelectOnChange(multiselectList: EditableMultiSelectObjectItem[]) {
     // garante que elemento #0 está vazio, para poder ser editado
     if ((multiselectList.length == 0) || (!multiselectList[0].newOption) || (multiselectList[0].newOption && (multiselectList[0].value != '')) ) {
       console.log(`um elemento zerado FOI adicionado ao multiselectList`);
-      multiselectList.splice(0, 0, {label: '', value: '', newOption: true});
+      multiselectList.splice(0, 0, {label: '', value: '', newOption: true, object: null});
     } else {
       console.log(`um elemento zerado NÃO foi adicionado ao multiselectList pois #0 = {label: '${multiselectList[0].label}', value: '${multiselectList[0].value}', newOption: ${multiselectList[0].newOption}}. Porém, ${this.mprjVinculadoText}`);
     }
@@ -279,30 +282,7 @@ export class MPCadastraITComponent {
   }
 
   submit() {
-    // post de algo como
-    // {"solicitante":"CRAAI ANGRA DOS REIS",
-    //  "principal":"15926366",
-    //  "vinculado":"16120829",
-    //  "tipo":"Teste",
-    //  "subtipo":"tester",
-    //  "edificacoes":[{"nome":"edf"}],
-    //  "formacao":"70",
-    //  "servicos":[{"nome":"srv"}],
-    //  "assuntos":[{"nome":"Biossegurança e Organismos Transgênicos "}],
-    //  "dtElab":"05/09/2017",
-    //  "dtVistoria":"05/09/2017",
-    //  "local":"local",
-    //  "logradouro":"rua",
-    //  "num":123,
-    //  "complemento":"123",
-    //  "bairro":"bairro",
-    //  "cidade":"cidadeuf",
-    //  "cep":"2244035",
-    //  "latitude":-22.826820400544044,
-    //  "longitude":-43.2861328125,
-    //  "tecnicos":[{"mat":"00007374","nome":"ADRIANA DE LIMA SILVA"}],
-    //  "opiniaoTecnica":"optec"}
-    let formFields: any = {
+    let _formFields: any = {
       solicitante:    'CRAAI ANGRA DOS REIS',
       principal:      '15926366',
       vinculado:      '16120829',
@@ -325,6 +305,30 @@ export class MPCadastraITComponent {
       longitude:      '-43.22021484375',
       tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
       opiniaoTecnica: 'optec'};
+    let formFields: any = {
+      solicitante:    this.solicitanteTexto,
+      principal:      this.mprjPrincipalId,
+      vinculado:      this.mprjVinculadoId,
+      tipo:           this.tipoIdOrNewTipoText,
+      subtipo:        this.subTipoIdOrNewSubTipoText,
+      edificacoes:    (this.edificacoesSelecionadas || []).filter(nomeEdificacao => nomeEdificacao !== '').map(nomeEdificacao => { return {nome: nomeEdificacao}; }),
+      formacao:       this.especialidadeId,
+      servicos:       (this.servicosSelecionados || []).filter(nomeServico => nomeServico !== '').map(nomeServico => { return {nome: nomeServico}; }),
+      assuntos:       (this.assuntosSelecionados || []).filter(nomeAssunto => nomeAssunto !== '').map(nomeAssunto => { return {nome: nomeAssunto}; }),
+      dtElab:         '05/09/2017',
+      dtVistoria:     '05/09/2017',
+      local:          'local',
+      logradouro:     'rua',
+      num:            '123',
+      complemento:    '123',
+      bairro:         'bairro',
+      cidade:         'rj',
+      cep:            '2244035',
+      latitude:       '-22.88756221517449',
+      longitude:      '-43.22021484375',
+      tecnicos:       (this.tecnicosSelecionados || []).filter(nomeTecnico => nomeTecnico !== '').map(nomeTecnico => { return {mat: (this.listaTecnicos.find(tecnicoSelectObjectItem => tecnicoSelectObjectItem.value == nomeTecnico).object || {}).mat, nome: nomeTecnico}; }),
+      opiniaoTecnica: 'optec'};
+    console.log(JSON.stringify(formFields));
     this.gateProDataServices.postFormData(this.fileToUpload, formFields).subscribe(response => {
       this.postFormDataResult = response;
     }, error => this.postFormDataErrorMessage = <any>error);
@@ -345,7 +349,7 @@ export class MPCadastraITComponent {
         response = response.sort((e1, e2) => e2.nome < e1.nome ? 1 : -1);
         this.listaSubTipos = [];
         for (let subTipo of response) {
-          this.listaSubTipos.push({label: subTipo.nome, value: subTipo.nome});
+          this.listaSubTipos.push({label: subTipo.nome, value: subTipo.nome, object: subTipo});
         }
         this.ngOnChanges();
       }, error => this.listaSubTiposErrorMessage = <any>error);
@@ -363,7 +367,7 @@ export class MPCadastraITComponent {
         response = response.sort((e1, e2) => e2.servico < e1.servico ? 1 : -1);
         this.listaServicos = [];
         for (let servico of response) {
-          this.listaServicos.push({label: servico.servico, value: servico.id});
+          this.listaServicos.push({label: servico.servico, value: servico.id, object: servico});
         }
         // prepara lista para poder incluir novos elementos
         this.pMultiSelectOnChange(this.listaServicos);
