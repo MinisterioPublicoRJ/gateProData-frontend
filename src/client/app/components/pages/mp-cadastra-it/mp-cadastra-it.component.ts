@@ -90,11 +90,12 @@ export class MPCadastraITComponent {
 
   fileToUpload: File;
 
-  //Data
-  formato: any;
-  calendario: Date;
-  minDate: Date;
-  maxDate: Date;
+  //Datas
+  formato:    any;
+  dtElab:     Date;
+  dtVistoria: Date;
+  minDate:    Date;
+  maxDate:    Date;
 
   //Mapa
   options: any;
@@ -315,8 +316,8 @@ export class MPCadastraITComponent {
       formacao:       this.especialidadeId,
       servicos:       (this.servicosSelecionados || []).filter(nomeServico => nomeServico !== '').map(nomeServico => { return {nome: nomeServico}; }),
       assuntos:       (this.assuntosSelecionados || []).filter(nomeAssunto => nomeAssunto !== '').map(nomeAssunto => { return {nome: nomeAssunto}; }),
-      dtElab:         '05/09/2017',
-      dtVistoria:     '05/09/2017',
+      dtElab:         this.dtVistoria.toLocaleDateString('pt-BR'),
+      dtVistoria:     this.dtElab.toLocaleDateString('pt-BR'),
       local:          'local',
       logradouro:     'rua',
       num:            '123',

@@ -74,13 +74,13 @@
     <!--Data da Vistoria-->
     <div class="col-md-6 margin">
       <label for="dataDaVistoria">Data da Vistoria</label>
-      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
+      <br><p-calendar [(ngModel)]="dtVistoria" dateFormat="dd/mm/yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1988:2100" [style]="{'width': '100%'}"></p-calendar>
     </div>
 
     <!--Data da Elaboração-->
     <div class="col-md-6 margin">
       <label for="dataDaElaboracao">Data da Elaboração</label>
-      <br><p-calendar [(ngModel)]="calendario"  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [style]="{'width': '100%'}"></p-calendar>
+      <br><p-calendar [(ngModel)]="dtElab" dateFormat="dd/mm/yy" [monthNavigator]="true" [yearNavigator]="true" yearRange="1988:2100" [style]="{'width': '100%'}"></p-calendar>
     </div>
   </div>
 
@@ -130,11 +130,9 @@
 
     <!--Mapa-->
     <div class="col-md-6 margin">
-    <label for="mapa">Mapa</label>
-      <!--<p-gmap #gmap [options]="options"></p-gmap>
+      <label for="mapa">Mapa</label>
+      <p-gmap #gmap [options]="options"></p-gmap>
       <button type="button" pButton label="Zoom In" icon="fa-search-plus" (click)="zoomIn(gmap.getMap())"></button>-->
-
-
     </div>
 
     <!--Latitude-->
