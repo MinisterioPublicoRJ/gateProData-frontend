@@ -91,20 +91,33 @@ export class MPCadastraITComponent {
   fileToUpload: File;
 
   //Datas
-  formato:    any;
   dtElab:     Date;
   dtVistoria: Date;
+  // campos de controle do componente calendário
+  formato:    any;
   minDate:    Date;
   maxDate:    Date;
 
   //Mapa
+  latitude:  string;
+  longitude: string;
+  // campos de controle do componente do mapa
   options: any;
   overlays: any[];
-  dialogVisible: boolean;
   markerTitle: string;
-  selectedPosition: any;
   infoWindow: any;
   draggable: boolean;
+
+  // campos digitáveis
+  local:       string;
+  logradouro:  string;
+  numero:      string;
+  complemento: string;
+  bairro:      string;
+  cidade:      string;
+  cep:         string;
+  optec:       string;
+
 
   constructor(private injector: Injector,
               public routerext: RouterExtensions,
@@ -282,6 +295,31 @@ export class MPCadastraITComponent {
     }
   }
 
+  // retorna a mensagem de negação ou uma string vazia, se está tudo certo
+  checkNotNullNorEmpty(value: any, fieldName: string): string {
+    let isOK;
+    if (value == null) {
+      isOK = false;
+    } else {
+      console.log(`Tipo de ${fieldName}: ${typeof value}`);
+      if (typeof value === 'string') {
+        isOK = value > '';
+      } else if (value instanceof Date) {
+        isOK = true;
+      } else if (typeof value === 'object') {
+        isOK = value.length > 0;
+      } else {
+        isOK = false;
+      }
+    }
+
+    if (isOK) {
+      return '';
+    } else {
+      return `* Campo ${fieldName}: preencha;\n`;
+    }
+  }
+
   submit() {
     let _formFields: any = {
       solicitante:    'CRAAI ANGRA DOS REIS',
@@ -306,6 +344,7 @@ export class MPCadastraITComponent {
       longitude:      '-43.22021484375',
       tecnicos:       [{mat:'00007374', nome:'ADRIANA DE LIMA SILVA'}],
       opiniaoTecnica: 'optec'};
+
     let formFields: any = {
       solicitante:    this.solicitanteTexto,
       principal:      this.mprjPrincipalId,
@@ -316,23 +355,63 @@ export class MPCadastraITComponent {
       formacao:       this.especialidadeId,
       servicos:       (this.servicosSelecionados || []).filter(nomeServico => nomeServico !== '').map(nomeServico => { return {nome: nomeServico}; }),
       assuntos:       (this.assuntosSelecionados || []).filter(nomeAssunto => nomeAssunto !== '').map(nomeAssunto => { return {nome: nomeAssunto}; }),
-      dtElab:         this.dtVistoria.toLocaleDateString('pt-BR'),
-      dtVistoria:     this.dtElab.toLocaleDateString('pt-BR'),
-      local:          'local',
-      logradouro:     'rua',
-      num:            '123',
-      complemento:    '123',
-      bairro:         'bairro',
-      cidade:         'rj',
-      cep:            '2244035',
-      latitude:       '-22.88756221517449',
-      longitude:      '-43.22021484375',
+      dtElab:         (this.dtVistoria && this.dtVistoria.toLocaleDateString('pt-BR')) || '0/0/0',
+      dtVistoria:     (this.dtElab     && this.dtElab.toLocaleDateString('pt-BR'))     || '0/0/0',
+      local:          this.local,
+      logradouro:     this.logradouro,
+      num:            this.numero,
+      complemento:    this.complemento,
+      bairro:         this.bairro,
+      cidade:         this.cidade,
+      cep:            this.cep,
+      latitude:       this.latitude,
+      longitude:      this.longitude,
       tecnicos:       (this.tecnicosSelecionados || []).filter(nomeTecnico => nomeTecnico !== '').map(nomeTecnico => { return {mat: (this.listaTecnicos.find(tecnicoSelectObjectItem => tecnicoSelectObjectItem.value == nomeTecnico).object || {}).mat, nome: nomeTecnico}; }),
-      opiniaoTecnica: 'optec'};
-    console.log(JSON.stringify(formFields));
-    this.gateProDataServices.postFormData(this.fileToUpload, formFields).subscribe(response => {
-      this.postFormDataResult = response;
-    }, error => this.postFormDataErrorMessage = <any>error);
+      opiniaoTecnica: this.optec};
+
+    let isValidated: boolean = false;
+    this.postFormDataErrorMessage = this.checkNotNullNorEmpty(this.solicitanteTexto,          'Solicitante') +
+                                    this.checkNotNullNorEmpty(this.mprjPrincipalId ||
+                                                              this.mprjVinculadoId,           'MPRJ Principal e/ou MPRJ Vinculado') +
+                                    this.checkNotNullNorEmpty(this.tipoIdOrNewTipoText,       'Tipo') +
+                                    this.checkNotNullNorEmpty(this.subTipoIdOrNewSubTipoText, 'Sub Tipo') +
+                                    this.checkNotNullNorEmpty(this.edificacoesSelecionadas,   'Edificações') +
+                                    this.checkNotNullNorEmpty(this.especialidadeId,           'Formação') +
+                                    this.checkNotNullNorEmpty(this.servicosSelecionados,      'Serviços') +
+                                    this.checkNotNullNorEmpty(this.assuntosSelecionados,      'Assuntos') +
+                                    this.checkNotNullNorEmpty(this.dtVistoria,                'Data da Vistoria') +
+                                    this.checkNotNullNorEmpty(this.dtElab,                    'Data da Elaboração') +
+                                    this.checkNotNullNorEmpty(this.local,                     'Local') +
+                                    this.checkNotNullNorEmpty(this.logradouro,                'Logradouro') +
+                                    this.checkNotNullNorEmpty(this.numero,                    'Número') +
+                                    this.checkNotNullNorEmpty(this.bairro,                    'Bairro') +
+                                    this.checkNotNullNorEmpty(this.cidade,                    'Cidade') +
+                                    this.checkNotNullNorEmpty(this.cep,                       'CEP') +
+                                    this.checkNotNullNorEmpty(this.latitude,                  'Latitude') +
+                                    this.checkNotNullNorEmpty(this.longitude,                 'Longitude') +
+                                    this.checkNotNullNorEmpty(this.tecnicosSelecionados,      'Técnicos') +
+                                    this.checkNotNullNorEmpty(this.optec,                     'Opinião Técnica');
+
+    // checa se o CEP tem 8 caracteres e é formado apenas por números
+    if ( (this.cep != null) && ( (this.cep.length != 8) || (!Number(this.cep)) ) ) {
+      this.postFormDataErrorMessage += '* Campo CEP deve conter 8 números -- e apenas números;\n';
+    }
+    // checa se número é um campo numérico (não deveria ser, mas, por enquanto, o banco só aceita números)
+    if ( (this.numero != null) && (!Number(this.numero)) ) {
+      this.postFormDataErrorMessage += '* Campo Número (erradamente) deve conter apenas números;\n';
+    }
+
+    isValidated = this.postFormDataErrorMessage === '';
+
+    if (isValidated) {
+      console.log(JSON.stringify(formFields));
+      this.gateProDataServices.postFormData(this.fileToUpload, formFields).subscribe(response => {
+        this.postFormDataResult = response;
+      }, error => this.postFormDataErrorMessage = <any>error);
+    } else {
+      this.postFormDataResult = {errTxt: 'Recusado pelo Frontend', errCod: -1};
+      this.postFormDataErrorMessage += "--> Corrija os erros acima e envie novamente";
+    }
   }
 
   // propriedades para as quais queremos receber os eventos de edição e carregar JSONs dinamicamente
@@ -407,17 +486,20 @@ export class MPCadastraITComponent {
     this.maxDate.setFullYear(nextYear);
 
     this.options = {
-            center: {lat: 36.890257, lng: 30.707417},
-            zoom: 12
-        };
+      center: {lat: -22.88756221517449, lng: -43.22021484375},
+      zoom: 7
+    };
   }
 
-    handleMapClick(event) {
-        this.dialogVisible = true;
-        this.selectedPosition = event.latLng;
-    }
+  handleMapClick(event) {
+    let lat: string = event.latLng.lat();
+    let lng: string = event.latLng.lng();
+    console.log(`Map click event -- lat: ${lat}; lng: ${lng}`);
+    this.latitude  = lat;
+    this.longitude = lng;
+  }
 
-    handleOverlayClick(event) {
+/*    handleOverlayClick(event) {
         let isMarker = event.overlay.getTitle != undefined;
 
         if(isMarker) {
@@ -440,20 +522,5 @@ export class MPCadastraITComponent {
 
     clear() {
         this.overlays = [];
-    }
-}
-
-export class MyModel {
-
-    options: any;
-
-    overlays: any[];
-
-    ngOnInit() {
-        this.options = {
-            center: {lat: 36.890257, lng: 30.707417},
-            zoom: 12
-        };
-    }
-
+    }*/
 }

@@ -243,7 +243,7 @@ export class GateProDataServices {
     return this.http.post(url, formData, options)
       .map((response: Response) => {
         return < ICadastrar > response.json();
-    }).catch((error:any) => Observable.throw(error.json().error || this.getErrorMessage(serviceName, url)));
+    }).catch((error:any) => Observable.throw(error.json().error || `Erro desconhecido ao postar '${serviceName}' em ${url}`));
   }
 
   public isAuthenticated(): Observable < boolean > {

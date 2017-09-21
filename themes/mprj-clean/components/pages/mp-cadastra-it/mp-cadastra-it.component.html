@@ -89,63 +89,59 @@
     <!--Logradouro-->
     <div class="col-md-6 margin">
       <label for="logradouro">Logradouro</label>
-      <br><input [style]="{'width': '100%'}" type="text">
-    </div>
-
-    <!--Rua-->
-    <div class="col-md-6 margin">
-      <label for="rua">Rua</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="logradouro">
     </div>
 
     <!--Número-->
     <div class="col-md-6 margin">
       <label for="numero">Número</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="numero">
     </div>
 
     <!--Complemento-->
     <div class="col-md-6 margin">
       <label for="complemento">Complemento</label>
-      <br><input type="text" [style]="{'width': '100%'}">
+      <br><input type="text" [style]="{'width': '100%'}" [(ngModel)]="complemento">
     </div>
 
     <!--Bairro-->
     <div class="col-md-6 margin">
       <label for="bairro">Bairro</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="bairro">
     </div>
 
     <!--Cidade/UF-->
     <div class="col-md-6 margin">
       <label for="cidadeUf">Cidade/UF</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="cidade">
     </div>
 
     <!--CEP-->
     <div class="col-md-6 margin">
       <label for="cep">CEP</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="cep">
     </div>
 
     <!--Mapa-->
     <div class="col-md-6 margin">
       <label for="mapa">Mapa</label>
-      <p-gmap #gmap [style]="{'width':'100%','height':'320px'}" [options]="options" [overlays]="overlays" (onMapClick)="handleMapClick($event)" (onOverlayClick)="handleOverlayClick($event)" (onOverlayDragEnd)="handleDragEnd($event)"></p-gmap>
-      <button type="button" pButton label="Clear" icon="fa-close" (click)="clear()" style="margin-top:10px"></button>
+      <p-gmap #gmap [style]="{'width':'100%','height':'320px'}" [options]="options" [overlays]="overlays" (onMapClick)="handleMapClick($event)"></p-gmap>
+      <!--<button type="button" pButton label="Clear" icon="fa-close" (click)="clear()" style="margin-top:10px"></button>
       <button type="button" pButton label="Zoom In" icon="fa-search-plus" (click)="zoomIn(gmap.getMap())" style="margin-top:10px"></button>
-      <button type="button" pButton label="Zoom Out" icon="fa-search-minus" (click)="zoomOut(gmap.getMap())" style="margin-top:10px"></button>    </div>
+      <button type="button" pButton label="Zoom Out" icon="fa-search-minus" (click)="zoomOut(gmap.getMap())" style="margin-top:10px"></button>-->
+    </div>
+      <br/>
 
     <!--Latitude-->
     <div class="col-md-6 margin">
       <label for="latitude">Latitude</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" placeholder="selecione no mapa ou digite" [(ngModel)]="latitude">
     </div>
 
     <!--Longitude-->
     <div class="col-md-6 margin">
       <label for="longitude">Longitude</label>
-      <br><input [style]="{'width': '100%'}" type="text">
+      <br><input [style]="{'width': '100%'}" type="text" placeholder="selecione no mapa ou digite" [(ngModel)]="longitude">
     </div>
     </div>
 
@@ -154,7 +150,7 @@
       <!--Opinião Técnica-->
       <div class="col-md-6 margin">
         <label for="opiniaotecnica">Opinião Técnica</label>
-        <br><input id="opt" [style]="{'width': '100%'}" type="text">
+        <br><input id="opt" [style]="{'width': '100%'}" type="text" [(ngModel)]="optec">
       </div>
 
 
@@ -180,7 +176,7 @@
 
   <pre *ngIf="postFormDataResult">
 postFormDataResult:         (errCod: {{postFormDataResult.errCod}} ErrTxt: '{{postFormDataResult.errTxt}}')
-postFormDataErrorMessage:   '{{postFormDataErrorMessage}}'
+{{postFormDataErrorMessage}}
   </pre>
 
 
