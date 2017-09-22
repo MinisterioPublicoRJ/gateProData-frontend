@@ -400,6 +400,12 @@ export class MPCadastraITComponent {
     if ( (this.numero != null) && (!Number(this.numero)) ) {
       this.postFormDataErrorMessage += '* Campo Número (erradamente) deve conter apenas números;\n';
     }
+    // checa se o file to upload é um PDF
+    if (this.fileToUpload == null) {
+      this.postFormDataErrorMessage += '* Insira o PDF;\n';
+    } else if (!this.fileToUpload.name.toLocaleLowerCase().endsWith('.pdf')) {
+      this.postFormDataErrorMessage += '* Arquivo inserido não é um PDF! Só PDFs são aceitos!\n';
+    }
 
     isValidated = this.postFormDataErrorMessage === '';
 
@@ -495,8 +501,8 @@ export class MPCadastraITComponent {
     let lat: string = event.latLng.lat();
     let lng: string = event.latLng.lng();
     console.log(`Map click event -- lat: ${lat}; lng: ${lng}`);
-    this.latitude  = lat;
-    this.longitude = lng;
+    this.latitude  = String(lat);
+    this.longitude = String(lng);
   }
 
 /*    handleOverlayClick(event) {
