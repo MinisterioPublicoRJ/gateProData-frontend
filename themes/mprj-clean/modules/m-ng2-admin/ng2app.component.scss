@@ -29,7 +29,7 @@ footer{
   width: 100%;
   margin-left: 0;
   margin-right: 0;
-  padding : 0.7%;
+  padding : 0.5%;
   display: block;
 }
 
@@ -127,6 +127,7 @@ hr{
 @media (min-width: 575px) {
 .logo-mini {
   display: none;
+  
 }
 }
 @media screen and(min-width: 998px) and (max-width:1500px){
@@ -139,5 +140,5 @@ hr{
 }
 
 #logomprjmp{
-  margin-top: -20px;
+  margin-top: 5px;
 }
