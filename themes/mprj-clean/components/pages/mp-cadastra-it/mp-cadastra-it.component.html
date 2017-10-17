@@ -172,7 +172,7 @@
       <!--Técnicos-->
       <div class="col-md-6 margin">
         <label for="tecnicos">Técnicos</label>
-        <p-multiSelect [options]="listaTecnicos" [(ngModel)]="tecnicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
+        <p-multiSelect [options]="listaTecnicos" [(ngModel)]="tecnicosSelecionados" [style]="{'width': '100%' }" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
           <ng-template let-option let-i="index" pTemplate="item">
             <span>{{option.label}}</span>
           </ng-template>
