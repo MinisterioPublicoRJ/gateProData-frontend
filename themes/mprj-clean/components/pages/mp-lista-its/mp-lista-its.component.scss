@@ -296,11 +296,20 @@
 
 .table{
   background-color: lightgrey;
-  border: 1px solid grey;
-  border-radius: 2px;
+}
+ 
+
+.StepTitle{
+  font-family: Courier New, Courier, monospace;
+  color: grey;
+}
+
+.row{
+  margin-top:20px;
+   background-color: #fafafa;
 }
 
 #button{
-  position: center;
+  margin-left: 80%;
 
 }
