@@ -295,6 +295,12 @@ export class MPCadastraITComponent {
     }
   }
 
+  // especialização da função 'pMultiSelectOnChange(listaEdificacoes)' para o campo 'edificações'
+  pEdificacoesOnChange(multiselectList: EditableMultiSelectObjectItem[]) {
+    this.pMultiSelectOnChange(multiselectList);
+    this.local = this.edificacoesSelecionadas.join(',');
+  }
+
   // retorna a mensagem de negação ou uma string vazia, se está tudo certo
   checkNotNullNorEmpty(value: any, fieldName: string): string {
     let isOK;

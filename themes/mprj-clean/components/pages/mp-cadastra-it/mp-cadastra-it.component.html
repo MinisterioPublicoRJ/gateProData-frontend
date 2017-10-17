@@ -35,7 +35,7 @@
     <!--Edificações-->
     <div class="col-md-4 margin">
       <label for="edificacoes">Edificações</label>
-      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pMultiSelectOnChange(listaEdificacoes)" required>
+      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pEdificacoesOnChange(listaEdificacoes)" required>
         <ng-template let-option let-i="index" pTemplate="item">
           <input *ngIf="option.newOption" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
           <span *ngIf="!option.newOption">{{option.label}}</span>
@@ -167,12 +167,12 @@
         <br><textarea [style]="{'width': '100%'}" cols='120' rows='6' type="text" [(ngModel)]="optec">ihh...</textarea>
       </div>
 
-      
+
 
       <!--Técnicos-->
       <div class="col-md-6 margin">
         <label for="tecnicos">Técnicos</label>
-        <p-multiSelect [options]="listaTecnicos" [(ngModel)]="tecnicosSelecionados" [style]="{'width': '100%' }" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
+        <p-multiSelect [options]="listaTecnicos" [(ngModel)]="tecnicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
           <ng-template let-option let-i="index" pTemplate="item">
             <span>{{option.label}}</span>
           </ng-template>
