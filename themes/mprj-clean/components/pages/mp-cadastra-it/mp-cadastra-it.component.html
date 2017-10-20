@@ -162,9 +162,9 @@
     <div class="divg row" >
 
       <!--Opinião Técnica-->
-      <div class="col-md-6 margin">
+      <div id="opt">
         <label for="optec">Opinião Técnica</label>
-        <br><textarea [style]="{'width': '100%'}" cols='120' rows='6' type="text" [(ngModel)]="optec">ihh...</textarea>
+        <br><textarea [style]="{'width':'100%'}" cols='120' rows='6' type="text" [(ngModel)]="optec">ihh...</textarea>
       </div>
 
       
@@ -180,7 +180,7 @@
       </div>
 
       <!--Inserir PDF-->
-      <div class="col-md-6 margin">
+      <div class="col-md-6 margin" >
         <label for="inserirpdf">Insira o PDF</label>
         <br><input  [style]="{'width': '100%'}" type="file" (change)="setFileToUpload($event);">
       </div>
@@ -196,3 +196,5 @@ postFormDataResult:         (errCod: {{postFormDataResult.errCod}} ErrTxt: '{{po
 
 
   </div>
+
+  
