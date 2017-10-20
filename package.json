@@ -192,7 +192,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "@ng-bootstrap/ng-bootstrap": "1.0.0-alpha.30",
     "font-awesome": "^4.7.0",
-    "primeng": "4.2.0-rc.1",
+    "primeng": "4.2.2",
     "@angular/material": "2.0.0-beta.8",
     "@angular/cdk": "2.0.0-beta.8",
 
