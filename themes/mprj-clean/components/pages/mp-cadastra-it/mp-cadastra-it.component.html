@@ -1,41 +1,42 @@
 <div class="container-fluid">
 
   <div class="divg row" >
+  
 
     <!--Solicitante-->
     <div id="solicitante" class="col-md-8 col-sub col-12"> 
-      <label for="solicitante">Solicitante:</label>
-      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteTexto" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+      <label for="solicitante">Solicitante</label>
+      <p-dropdown [options]="listaSolicitantes" [(ngModel)]="solicitanteTexto" pTooltip="Selecione um dos órgãos da instituição" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
     <!--MPRJ Principal / Associado-->
     <div class="col-md-4 margin">
       <label for="mprjPrincipal">MPRJ Principal</label><br/>
-      <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
+      <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" pTooltip="MPRJ relacionado a IT" tooltipPosition="right" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
       <p-autoComplete *ngIf="!listaMPRJPrincipais" [(ngModel)]="mprjPrincipalText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJPrincipal($event)"></p-autoComplete>
     </div>
     <div class="col-md-4 margin">
       <label for="MPRJVinculado">MPRJ Vinculado</label><br/>
-      <p-dropdown *ngIf="listaMPRJVinculados" [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
+      <p-dropdown *ngIf="listaMPRJVinculados" [options]="listaMPRJVinculados" [(ngModel)]="mprjVinculadoId" pTooltip="MPRJ secundário relacionado a IT" tooltipPosition="right" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
       <p-autoComplete *ngIf="!listaMPRJVinculados" [(ngModel)]="mprjVinculadoText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJVinculado($event)"></p-autoComplete>
     </div>
 
     <!--Tipo / Subtipo-->
     <div class="col-md-2 margin">
       <label for="tipo">Tipo</label><br/>
-      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
+      <p-dropdown [options]="listaTipos" [(ngModel)]="tipoIdOrNewTipoText" pTooltip="Classificação da IT" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
     </div>
 
     <div class="col-md-1 margin">
       <label for="subtipo">Subtipo</label><br/>
-      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" [style]="{'width': '100%'}"  filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
-      <input *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
+      <p-dropdown *ngIf="toNumber(tipoIdOrNewTipoText)" [options]="listaSubTipos" [(ngModel)]="subTipoIdOrNewSubTipoText" pTooltip="Classificação secundária da IT" [style]="{'width': '100%'}"  filter="filter" placeholder="Selecione ou Crie" filterPlaceholder="Buscar..." editable="editable" required></p-dropdown>
+      <input  *ngIf="!toNumber(tipoIdOrNewTipoText)" type=text [(ngModel)]="subTipoIdOrNewSubTipoText"/>
     </div>
 
     <!--Edificações-->
     <div class="col-md-4 margin">
       <label for="edificacoes">Edificações</label>
-      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pEdificacoesOnChange(listaEdificacoes)" required>
+      <p-multiSelect [options]="listaEdificacoes" [(ngModel)]="edificacoesSelecionadas" pTooltip="Referência Física" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..." (onChange)="pEdificacoesOnChange(listaEdificacoes)" required>
         <ng-template let-option let-i="index" pTemplate="item">
           <input *ngIf="option.newOption" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
           <span *ngIf="!option.newOption">{{option.label}}</span>
@@ -46,13 +47,13 @@
     <!--Formação-->
     <div class="col-md-4 margin">
       <label for="formacao">Formação</label>
-      <br><p-dropdown [options]="listaEspecialidades" [(ngModel)]="especialidadeId" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
+      <br><p-dropdown [options]="listaEspecialidades" [(ngModel)]="especialidadeId" pTolltip="Determinada formação do perito que esta formulando a IT" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required></p-dropdown>
     </div>
 
     <!--Serviços-->
     <div class="col-md-4 margin">
       <label for="servicos">Serviços</label>
-      <p-multiSelect *ngIf="toNumber(especialidadeId)" [options]="listaServicos" [(ngModel)]="servicosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..."  (onChange)="pMultiSelectOnChange(listaServicos)" required>
+      <p-multiSelect *ngIf="toNumber(especialidadeId)" [options]="listaServicos" [(ngModel)]="servicosSelecionados" pTollTip="Inspeçõre determinadas pelo perito" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione e/ou Crie" filterPlaceholder="Buscar..."  (onChange)="pMultiSelectOnChange(listaServicos)" required>
         <ng-template let-option let-i="index" pTemplate="item">
           <input *ngIf="option.newOption" type="text" placeholder="(novo item, digite)" [(ngModel)]="option.value">
           <span *ngIf="!option.newOption">{{option.label}}</span>
@@ -64,7 +65,7 @@
     <!--Palavras chave-->
     <div class="col-md-12 margin">
       <label for="palavrasChave">Palavras Chave</label>
-      <p-multiSelect [options]="listaAssuntos" [(ngModel)]="assuntosSelecionados" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
+      <p-multiSelect [options]="listaAssuntos" [(ngModel)]="assuntosSelecionados" pTolltio="Palavra referente ao tema da IT" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
         <ng-template let-option let-i="index" pTemplate="item">
           <span>{{option.label}}</span>
         </ng-template>
@@ -123,11 +124,12 @@
         <label for="cidadeUf">Cidade</label>
         <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="cidade">
       </div>
+      
 
-      <!--CEP-->
+      <!--CEP--> 
       <div class="col-md-12 margin">
         <label for="cep">CEP</label>
-        <br><input [style]="{'width': '100%'}" type="text" [(ngModel)]="cep">
+        <br><input [style]="{'width': '100%'}" maxlength="8" type="text" [(ngModel)]="cep">
       </div>
 
     </div>
@@ -183,13 +185,14 @@
       <div class="col-md-6 margin" >
         <label for="inserirpdf">Insira o PDF</label>
         <br><input  [style]="{'width': '100%'}" type="file" (change)="setFileToUpload($event);">
+        <button class="btn btn-success" (click)="submit();">Enviar IT</button>
       </div>
 
     </div>
 
-  <button class="btn btn-success" (click)="submit();">Enviar</button>
+  
 
-  <pre *ngIf="postFormDataResult">
+  <pre *ngIf="postFormDataResult"> 
 postFormDataResult:         (errCod: {{postFormDataResult.errCod}} ErrTxt: '{{postFormDataResult.errTxt}}')
 {{postFormDataErrorMessage}}
   </pre>

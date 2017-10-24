@@ -9,6 +9,7 @@ import { Config, RouterExtensions, ConsoleService } from '../../../modules/core/
 import { SelectItem,
          GMapModule  } from 'primeng/primeng';
 
+
 // services
 import { GateProDataServices } from '../../../services/GateProDataServices';
 
@@ -402,6 +403,7 @@ export class MPCadastraITComponent {
     if ( (this.cep != null) && ( (this.cep.length != 8) || (!Number(this.cep)) ) ) {
       this.postFormDataErrorMessage += '* Campo CEP deve conter 8 números -- e apenas números;\n';
     }
+  
     // checa se número é um campo numérico (não deveria ser, mas, por enquanto, o banco só aceita números)
     if ( (this.numero != null) && (!Number(this.numero)) ) {
       this.postFormDataErrorMessage += '* Campo Número (erradamente) deve conter apenas números;\n';
