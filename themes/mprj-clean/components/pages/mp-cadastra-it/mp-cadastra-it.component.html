@@ -2,7 +2,6 @@
 
   <div class="divg row" >
   
-
     <!--Solicitante-->
     <div id="solicitante" class="col-md-8 col-sub col-12"> 
       <label for="solicitante">Solicitante</label>
@@ -12,7 +11,7 @@
     <!--MPRJ Principal / Associado-->
     <div class="col-md-4 margin">
       <label for="mprjPrincipal">MPRJ Principal</label><br/>
-      <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId" pTooltip="MPRJ relacionado a IT" tooltipPosition="right" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
+      <p-dropdown *ngIf="listaMPRJPrincipais" [options]="listaMPRJPrincipais" [(ngModel)]="mprjPrincipalId"  [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..."></p-dropdown>
       <p-autoComplete *ngIf="!listaMPRJPrincipais" [(ngModel)]="mprjPrincipalText" [suggestions]="fetchedMPRJsVinculados" (completeMethod)="searchMPRJPrincipal($event)"></p-autoComplete>
     </div>
     <div class="col-md-4 margin">
@@ -65,7 +64,7 @@
     <!--Palavras chave-->
     <div class="col-md-12 margin">
       <label for="palavrasChave">Palavras Chave</label>
-      <p-multiSelect [options]="listaAssuntos" [(ngModel)]="assuntosSelecionados" pTolltio="Palavra referente ao tema da IT" tooltipPosition="bottom" [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
+      <p-multiSelect [panelStyle]="{'width': '100%'}" [options]="listaAssuntos" [(ngModel)]="assuntosSelecionados"   [style]="{'width': '100%'}" filter="filter" placeholder="Selecione" filterPlaceholder="Buscar..." required>
         <ng-template let-option let-i="index" pTemplate="item">
           <span>{{option.label}}</span>
         </ng-template>
@@ -185,8 +184,10 @@
       <div class="col-md-6 margin" >
         <label for="inserirpdf">Insira o PDF</label>
         <br><input  [style]="{'width': '100%'}" type="file" (change)="setFileToUpload($event);">
-        <button class="btn btn-success" (click)="submit();">Enviar IT</button>
+        <button class="btn btn-success" (click)="submit();  ">Enviar IT</button>
       </div>
+      
+        
 
     </div>
 
